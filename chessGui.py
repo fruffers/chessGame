@@ -605,8 +605,7 @@ class Bishop(Piece):
 
         def moves(self,squareIndex):
 
-                # Queen moves diagonally any number of squares, horizontally and vertically.
-                # Thus queen can move like a bishop and a rook.
+                # bishop moves diagonally
                 # north west
                 nw = squareIndex - 9
                 nw2 = nw - 9
@@ -713,8 +712,6 @@ class Bishop(Piece):
                                         possibleSpaces.append(num)
 
 
-
-
                 print(possibleSpaces)
 
                 copyPossibleSpaces = possibleSpaces
@@ -750,8 +747,9 @@ class Queen(Piece):
         wImage= ImageTk.PhotoImage(wOpen)
 
         def moves(self,squareIndex):
-                #Queen moves diagonally any number of squares, horizontally and vertically.
-                #Thus queen can move like a bishop and a rook.
+
+
+                # DIAGONALS
                 # north west
                 nw = squareIndex - 9
                 nw2 = nw - 9
@@ -761,7 +759,7 @@ class Queen(Piece):
                 nw6 = nw5 - 9
                 nw7 = nw6 - 9
 
-                nwset = [nw, nw2, nw3, nw4, nw5, nw6, nw7]
+                nwBunch = [nw, nw2, nw3, nw4, nw5, nw6, nw7]
 
                 # north east
                 ne = squareIndex - 7
@@ -772,7 +770,7 @@ class Queen(Piece):
                 ne6 = ne5 - 7
                 ne7 = ne6 - 7
 
-                neset = [ne, ne2, ne3, ne4, ne5, ne6, ne7]
+                neBunch = [ne, ne2, ne3, ne4, ne5, ne6, ne7]
 
                 # south west
                 sw = squareIndex + 7
@@ -783,7 +781,7 @@ class Queen(Piece):
                 sw6 = sw5 + 7
                 sw7 = sw6 + 7
 
-                swset = [sw, sw2, sw3, sw4, sw5, sw6, sw7]
+                swBunch = [sw, sw2, sw3, sw4, sw5, sw6, sw7]
 
                 # south east
                 se = squareIndex + 9
@@ -794,754 +792,71 @@ class Queen(Piece):
                 se6 = se5 + 9
                 se7 = se6 + 9
 
-                seset = [se, se2, se3, se4, se5, se6, se7]
-
-                possibleMoves = []
-                possibleMoves2 = []
-
-                # for rows going down: ne+1 nw+1
-                # for cols going right: sw+1 se-1
-
-                # rows
-
-                if squareIndex in col1:
-                        # possibleMoves.remove(sw)
-                        # possibleMoves.remove(nw)
-
-                        if squareIndex in row1:
-                                # ne0
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                                possibleMoves2.append(se5)
-                                possibleMoves2.append(se6)
-                                possibleMoves2.append(se7)
-                        if squareIndex in row2:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                                possibleMoves2.append(se5)
-                                possibleMoves2.append(se6)
-                        if squareIndex in row3:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                                possibleMoves2.append(se5)
-                        if squareIndex in row4:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                        if squareIndex in row5:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                        if squareIndex in row6:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                        if squareIndex in row7:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-                                possibleMoves2.append(ne6)
-
-                                possibleMoves2.append(ne)
-                        if squareIndex in row8:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-                                possibleMoves2.append(ne6)
-                                possibleMoves2.append(ne7)
-
-                                # se0
-
-                elif squareIndex in col2:
-                        # sw1
-                        possibleMoves2.append(nw)
-                        possibleMoves2.append(sw)
-
-                        if squareIndex in row1:
-                                possibleMoves2.remove(nw)
-
-                                # ne0
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                                possibleMoves2.append(se5)
-                                possibleMoves2.append(se6)
-                        if squareIndex in row2:
-                                possibleMoves2.append(ne)
-
-                                # se doesn't change from previous because of the white corner
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                                possibleMoves2.append(se5)
-                                possibleMoves2.append(se6)
-                        if squareIndex in row3:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                                possibleMoves2.append(se5)
-                        if squareIndex in row4:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                                possibleMoves2.append(se4)
-                        if squareIndex in row5:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-                        if squareIndex in row6:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                        if squareIndex in row7:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-                                possibleMoves2.append(ne6)
-
-                                possibleMoves2.append(se)
-                        if squareIndex in row8:
-                                possibleMoves2.remove(sw)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-                                possibleMoves2.append(ne6)
-
-                                # no se
-                elif squareIndex in col3:
-                        # main middle values
-                        possibleMoves2 = [sw, sw2, nw, nw2, se, se2, se3, se4, se5]
-
-                        if squareIndex in row1:
-                                possibleMoves2.remove(nw)
-                                possibleMoves2.remove(nw2)
-
-                        if squareIndex in row2:
-                                # keep nw1
-                                possibleMoves2.remove(nw2)
-
-                                possibleMoves2.append(ne)
-                        if squareIndex in row3:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                        if squareIndex in row4:
-                                possibleMoves2.remove(se5)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                        if squareIndex in row5:
-                                possibleMoves2.remove(se5)
-                                possibleMoves2.remove(se4)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                        if squareIndex in row6:
-                                possibleMoves2.remove(se5)
-                                possibleMoves2.remove(se4)
-                                possibleMoves2.remove(se3)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-                                # limit reached
-                        if squareIndex in row7:
-                                possibleMoves2.remove(sw)
-
-                                possibleMoves2.remove(se5)
-                                possibleMoves2.remove(se4)
-                                possibleMoves2.remove(se3)
-                                possibleMoves2.remove(se2)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-                        if squareIndex in row8:
-                                possibleMoves2.remove(sw)
-                                possibleMoves2.remove(sw2)
-
-                                possibleMoves2.remove(se5)
-                                possibleMoves2.remove(se4)
-                                possibleMoves2.remove(se3)
-                                possibleMoves2.remove(se2)
-                                possibleMoves2.remove(se)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                possibleMoves2.append(ne5)
-
-                elif squareIndex in col4:
-                        # nw and sw are constants
-                        possibleMoves2 = [nw, nw2, nw3, sw, sw2, sw3, se, se2, se3, se4]
-                        if squareIndex in row1:
-                                possibleMoves2.remove(nw)
-                                possibleMoves2.remove(nw2)
-                                possibleMoves2.remove(nw3)
-
-                        if squareIndex in row2:
-                                # keep nw1
-                                possibleMoves2.remove(nw2)
-                                possibleMoves2.remove(nw3)
-
-                                possibleMoves2.append(ne)
-                        if squareIndex in row3:
-                                possibleMoves2.remove(nw3)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                        if squareIndex in row4:
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                        if squareIndex in row5:
-                                possibleMoves2.remove(se4)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                        if squareIndex in row6:
-                                possibleMoves2.remove(sw3)
-
-                                possibleMoves2.remove(se4)
-                                possibleMoves2.remove(se3)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                                # limit reached
-                        if squareIndex in row7:
-                                possibleMoves2.remove(sw3)
-                                possibleMoves2.remove(sw2)
-
-                                possibleMoves2.remove(se4)
-                                possibleMoves2.remove(se3)
-                                possibleMoves2.remove(se2)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-                        if squareIndex in row8:
-                                possibleMoves2.remove(sw3)
-                                possibleMoves2.remove(sw2)
-                                possibleMoves2.remove(sw)
-
-                                possibleMoves2.remove(se4)
-                                possibleMoves2.remove(se3)
-                                possibleMoves2.remove(se2)
-                                possibleMoves2.remove(se)
-
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-                                possibleMoves2.append(ne4)
-
-                elif squareIndex in col5:
-                        possibleMoves2 = []
-
-                        if squareIndex in row1:
-                                # possibleMoves2.append(ne0)
-
-                                # possibleMoves2.append(nw0)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-
-                        if squareIndex in row2:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-
-                        if squareIndex in row3:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-
-                        if squareIndex in row4:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-
-                        if squareIndex in row5:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-                                possibleMoves2.append(se3)
-
-                        if squareIndex in row6:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row7:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-
-                                possibleMoves2.append(sw)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row8:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-
-                elif squareIndex in col6:
-                        possibleMoves2 = []
-                        if squareIndex in row1:
-                                # possibleMoves2.append(ne0)
-
-                                # possibleMoves2.append(nw0)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row2:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row3:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row4:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-                                possibleMoves2.append(ne3)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row5:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row6:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row7:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-
-                                possibleMoves2.append(sw)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row8:
-                                possibleMoves2.append(ne)
-                                possibleMoves2.append(ne2)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-
-                elif squareIndex in col7:
-                        possibleMoves2 = []
-                        if squareIndex in row1:
-                                # possibleMoves2.append(ne0)
-
-                                # possibleMoves2.append(nw0)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-                                possibleMoves2.append(sw6)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row2:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-                                possibleMoves2.append(sw6)
-
-                                possibleMoves2.append(se)
-                                possibleMoves2.append(se2)
-
-                        if squareIndex in row3:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row4:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row5:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row6:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row7:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-                                possibleMoves2.append(nw6)
-
-                                possibleMoves2.append(sw)
-
-                                possibleMoves2.append(se)
-
-                        if squareIndex in row8:
-                                possibleMoves2.append(ne)
-
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-                                possibleMoves2.append(nw6)
-
-                elif squareIndex in col8:
-                        possibleMoves2 = []
-                        if squareIndex in row1:
-                                # possibleMoves2.append(ne0)
-
-                                # possibleMoves2.append(nw0)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-                                possibleMoves2.append(sw6)
-                                possibleMoves2.append(sw7)
-
-                                # se0
-
-                        if squareIndex in row2:
-                                possibleMoves2.append(nw)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-                                possibleMoves2.append(sw6)
-
-                        if squareIndex in row3:
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-                                possibleMoves2.append(sw5)
-
-                        if squareIndex in row4:
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-                                possibleMoves2.append(sw4)
-
-                        if squareIndex in row5:
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-                                possibleMoves2.append(sw3)
-
-                        if squareIndex in row6:
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-
-                                possibleMoves2.append(sw)
-                                possibleMoves2.append(sw2)
-
-                        if squareIndex in row7:
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-                                possibleMoves2.append(nw6)
-
-                                possibleMoves2.append(sw)
-
-                        if squareIndex in row8:
-                                possibleMoves2.append(nw)
-                                possibleMoves2.append(nw2)
-                                possibleMoves2.append(nw3)
-                                possibleMoves2.append(nw4)
-                                possibleMoves2.append(nw5)
-                                possibleMoves2.append(nw6)
-                                possibleMoves2.append(nw7)
+                seBunch = [se, se2, se3, se4, se5, se6, se7]
+
+                possibleSpaces = []
+
+                # rows = [row1, row2, row3, row4, row5, row6, row7, row8]
+                # cols = [col1, col2, col3, col4, col5, col6, col7, col8]
+
+                # ENDS used to determine the end of board
+                end1 = range(0, 8)
+                end2 = range(0, 57, 8)
+                end3 = range(56, 64)
+                end4 = range(7, 57, 8)
+
+                ends = [end1, end2, end3, end4]
+                endsIndexes = []
+
+                # this is needed to convert the endsIndexes to numbers as the ends only holds ranges
+                # meaning I would have to do a double loop break further on
+                for ranges in ends:
+                        for numbs in ranges:
+                                endsIndexes.append(numbs)
+
+                # calculate possible spaces using movement bunches and end numbers
+                # if one of the nums in the bunches hits an end then the loop stops and moves onto the next direction loop
+                if squareIndex:
+                        for num in nwBunch:
+                                if num in endsIndexes:
+                                        possibleSpaces.append(num)
+                                        break
+                                elif num < 0 or num > 63:
+                                        break
+                                else:
+                                        possibleSpaces.append(num)
+
+                        for num in neBunch:
+                                if num in endsIndexes:
+                                        possibleSpaces.append(num)
+                                        break
+                                elif num < 0 or num > 63:
+                                        break
+                                else:
+                                        print(num)
+                                        possibleSpaces.append(num)
+
+                        for num in seBunch:
+                                if num in endsIndexes:
+                                        possibleSpaces.append(num)
+                                        break
+                                elif num < 0 or num > 63:
+                                        break
+                                else:
+                                        possibleSpaces.append(num)
+
+                        for num in swBunch:
+                                if num in endsIndexes:
+                                        possibleSpaces.append(num)
+                                        break
+                                elif num < 0 or num > 63:
+                                        break
+                                else:
+                                        possibleSpaces.append(num)
+
+                # STRAIGHTS
+                # left,right,up,down
+                # each variable represents a square
 
                 # LEFT
                 left = squareIndex - 1
@@ -1553,6 +868,8 @@ class Queen(Piece):
                 l7 = l6 - 1
                 # l8 = l7-1
 
+                leftBunch = [left, l2, l3, l4, l5, l6, l7]
+
                 # RIGHT
                 right = squareIndex + 1
                 r2 = right + 1
@@ -1562,6 +879,8 @@ class Queen(Piece):
                 r6 = r5 + 1
                 r7 = r6 + 1
                 # r8 = r7+1
+
+                rightBunch = [right, r2, r3, r4, r5, r6, r7]
 
                 # UP
                 up = squareIndex - 8
@@ -1573,6 +892,8 @@ class Queen(Piece):
                 u7 = u6 - 8
                 # u8 = u7-8
 
+                upBunch = [up, u2, u3, u4, u5, u6, u7]
+
                 # DOWN
                 down = squareIndex + 8
                 d2 = down + 8
@@ -1583,212 +904,51 @@ class Queen(Piece):
                 d7 = d6 + 8
                 # d8 = d7+8
 
+                downBunch = [down, d2, d3, d4, d5, d6, d7]
+
                 # got rid of 8s because we also count the piece's square
 
-                possibleSpaces = [left, right, up, down]
+                # possibleSpaces = [left,right,up,down]
+                # possibleSpaces = []
+                upSpaces = []
+                downSpaces = []
 
-                # UP and DOWN
-                if squareIndex in row1:
-                        # can't go up
-                        possibleSpaces.remove(up)
+                rows = [row1, row2, row3, row4, row5, row6, row7, row8]
+                cols = [col1, col2, col3, col4, col5, col6, col7, col8]
 
-                        # top level of squares to go down
-                        possibleSpaces.append(d2)
-                        possibleSpaces.append(d3)
-                        possibleSpaces.append(d4)
-                        possibleSpaces.append(d5)
-                        possibleSpaces.append(d6)
-                        possibleSpaces.append(d7)
-                        # possibleSpaces.append(d8)
+                upCount = 0
+                downCount = 7
 
-                elif squareIndex in row2:
-                        # up
-                        possibleSpaces.append(u2)
+                # up and down
+                for row in rows:
+                        if squareIndex in row:
+                                for num in range(0, downCount):
+                                        possibleSpaces.append(downBunch[num])
 
-                        # down
-                        possibleSpaces.append(d2)
-                        possibleSpaces.append(d3)
-                        possibleSpaces.append(d4)
-                        possibleSpaces.append(d5)
-                        possibleSpaces.append(d6)
-                        possibleSpaces.append(d7)
+                                for num in range(0, upCount):
+                                        possibleSpaces.append(upBunch[num])
+                        else:
+                                upCount += 1
+                                downCount -= 1
+                                continue
 
-                elif squareIndex in row3:
-                        # up
-                        possibleSpaces.append(u2)
-                        possibleSpaces.append(u3)
+                # left and right
+                leftCount = 0
+                rightCount = 7
 
-                        # down
-                        possibleSpaces.append(d2)
-                        possibleSpaces.append(d3)
-                        possibleSpaces.append(d4)
-                        possibleSpaces.append(d5)
-                        possibleSpaces.append(d6)
+                for col in cols:
+                        if squareIndex in col:
+                                for num in range(0, leftCount):
+                                        possibleSpaces.append(leftBunch[num])
 
-                elif squareIndex in row4:
-                        # up
-                        possibleSpaces.append(u2)
-                        possibleSpaces.append(u3)
-                        possibleSpaces.append(u4)
+                                for num in range(0, rightCount):
+                                        possibleSpaces.append(rightBunch[num])
+                        else:
+                                leftCount += 1
+                                rightCount -= 1
+                                continue
 
-                        # down
-                        possibleSpaces.append(d2)
-                        possibleSpaces.append(d3)
-                        possibleSpaces.append(d4)
-                        possibleSpaces.append(d5)
-
-                elif squareIndex in row5:
-                        # up
-                        possibleSpaces.append(u2)
-                        possibleSpaces.append(u3)
-                        possibleSpaces.append(u4)
-                        possibleSpaces.append(u5)
-
-                        # down
-                        possibleSpaces.append(d2)
-                        possibleSpaces.append(d3)
-                        possibleSpaces.append(d4)
-
-                elif squareIndex in row6:
-                        # up
-                        possibleSpaces.append(u2)
-                        possibleSpaces.append(u3)
-                        possibleSpaces.append(u4)
-                        possibleSpaces.append(u5)
-                        possibleSpaces.append(u6)
-
-                        # down
-                        possibleSpaces.append(d2)
-                        possibleSpaces.append(d3)
-
-                elif squareIndex in row7:
-                        possibleSpaces.append(u2)
-                        possibleSpaces.append(u3)
-                        possibleSpaces.append(u4)
-                        possibleSpaces.append(u5)
-                        possibleSpaces.append(u6)
-                        possibleSpaces.append(u7)
-
-                        # down
-                        possibleSpaces.append(d2)
-
-                elif squareIndex in row8:
-                        # up top level
-                        possibleSpaces.append(u2)
-                        possibleSpaces.append(u3)
-                        possibleSpaces.append(u4)
-                        possibleSpaces.append(u5)
-                        possibleSpaces.append(u6)
-                        possibleSpaces.append(u7)
-                        # possibleSpaces.append(u8)
-
-                        # can't go down
-                        possibleSpaces.remove(down)
-
-                # LEFT and RIGHT
-                if squareIndex in col1:
-                        # can't go left
-                        possibleSpaces.remove(left)
-
-                        # top level of squares to go right
-                        possibleSpaces.append(r2)
-                        possibleSpaces.append(r3)
-                        possibleSpaces.append(r4)
-                        possibleSpaces.append(r5)
-                        possibleSpaces.append(r6)
-                        possibleSpaces.append(r7)
-                        # possibleSpaces.append(r8)
-
-                elif squareIndex in col2:
-                        # left
-
-
-                        # right
-                        possibleSpaces.append(r2)
-                        possibleSpaces.append(r3)
-                        possibleSpaces.append(r4)
-                        possibleSpaces.append(r5)
-                        possibleSpaces.append(r6)
-                        possibleSpaces.append(r7)
-
-                elif squareIndex in col3:
-                        # left
-                        possibleSpaces.append(l2)
-
-
-                        # right
-                        possibleSpaces.append(r2)
-                        possibleSpaces.append(r3)
-                        possibleSpaces.append(r4)
-                        possibleSpaces.append(r5)
-                        possibleSpaces.append(r6)
-
-                elif squareIndex in col4:
-                        # left
-                        possibleSpaces.append(l2)
-                        possibleSpaces.append(l3)
-
-
-                        # right
-                        possibleSpaces.append(r2)
-                        possibleSpaces.append(r3)
-                        possibleSpaces.append(r4)
-                        possibleSpaces.append(r5)
-
-                elif squareIndex in col5:
-                        # left
-                        possibleSpaces.append(l2)
-                        possibleSpaces.append(l3)
-                        possibleSpaces.append(l4)
-
-
-                        # right
-                        possibleSpaces.append(r2)
-                        possibleSpaces.append(r3)
-                        possibleSpaces.append(r4)
-
-                elif squareIndex in col6:
-                        # left
-                        possibleSpaces.append(l2)
-                        possibleSpaces.append(l3)
-                        possibleSpaces.append(l4)
-                        possibleSpaces.append(l5)
-
-
-                        # right
-                        possibleSpaces.append(r2)
-                        possibleSpaces.append(r3)
-
-                elif squareIndex in col7:
-                        # left
-                        possibleSpaces.append(l2)
-                        possibleSpaces.append(l3)
-                        possibleSpaces.append(l4)
-                        possibleSpaces.append(l5)
-                        possibleSpaces.append(l6)
-
-
-                        # right
-                        possibleSpaces.append(r2)
-
-                elif squareIndex in col8:
-                        # left top level
-                        possibleSpaces.append(l2)
-                        possibleSpaces.append(l3)
-                        possibleSpaces.append(l4)
-                        possibleSpaces.append(l5)
-                        possibleSpaces.append(l6)
-                        possibleSpaces.append(l7)
-
-
-                        # can't go right
-                        possibleSpaces.remove(right)
-                else:
-                        pass
-
-                print(possibleMoves2)
-
-                copyPossibleSpaces = possibleMoves2 + possibleSpaces
+                copyPossibleSpaces = possibleSpaces
 
                 # print(copyPossibleSpaces)
 
