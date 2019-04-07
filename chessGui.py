@@ -980,9 +980,82 @@ class King(Piece):
 
         def moves(self,squareIndex):
                 #King moves 1 square horizontally,vertically, or diagonally
-                pass
 
-#############           
+                nw = squareIndex - 9
+                ne = squareIndex - 7
+                sw = squareIndex + 7
+                se = squareIndex + 9
+
+                # left right up down
+                left = squareIndex - 1
+                right = squareIndex + 1
+                up = squareIndex - 8
+                down = squareIndex + 8
+
+                diagBunch = [nw,ne,sw,se]
+                straightBunch = [left,right,up]
+
+                # ENDS used to determine the end of board
+                end1 = range(0, 8)
+                end2 = range(0, 57, 8)
+                end3 = range(56, 64)
+                end4 = range(7, 57, 8)
+
+                ends = [end1, end2, end3, end4]
+                endsIndexes = []
+
+                possibleSpaces = []
+
+                # this is needed to convert the endsIndexes to numbers as the ends only holds ranges
+                # meaning I would have to do a double loop break further on
+                for ranges in ends:
+                        for numbs in ranges:
+                                endsIndexes.append(numbs)
+
+                # calculate possible spaces using movement bunches and end numbers
+                # if one of the nums in the bunches hits an end then the loop stops and moves onto the next direction loop
+                if squareIndex:
+                        #DIAGONALS
+                        for num in diagBunch:
+                                if num in endsIndexes:
+                                        possibleSpaces.append(num)
+                                        break
+                                elif num < 0 or num > 63:
+                                        break
+                                else:
+                                        possibleSpaces.append(num)
+
+                        #STRAIGHTS
+                        for var in straightBunch:
+                                if var < 0 or var > 63:
+                                        break
+                                else:
+                                        possibleSpaces.append(var)
+                else:
+                        pass
+
+                copyPossibleSpaces = possibleSpaces
+
+                # print(copyPossibleSpaces)
+
+                # highlighting possible spaces in light purple
+                for var in copyPossibleSpaces:
+                        posSpace = board[var]
+                        posSpace.config(bg="mediumpurple4")
+
+                origSquare = board[squareIndex]
+                # print(origSquare)
+
+                # print(possibleSpaces)
+                # EVENT
+                # move on click
+                posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare))
+
+                # EVENT
+                # deselect on right click
+                # lambda is necessary so arguments can be accepted inside the function inside bind()
+                origSquare.bind("<Button-3>", lambda event: deselect(event, possibleSpaces=copyPossibleSpaces))
+
 
 def setStartPosition(bSet,wSet,board,boardObjectSpaces):
         #starting positions
