@@ -26,10 +26,7 @@ def roundLabel(moveNo):
         return roundNo
 
 def playerLabel(playerGo):
-        playerText = tkin.Label(root,text=playerGo)
-        playerText.grid(column=10,row=0)
-
-        return playerGo
+        pass
 
 def labelTop():
         #putting letter labels at top of board
@@ -274,9 +271,6 @@ class Piece(object):
         col7 = range(6, 63, +8)
         col8 = range(7, 64, +8)
 
-def doMove(event):
-        event = event.widget
-        print("MOVE")
         
                 
 class Pawn(Piece):
@@ -319,19 +313,19 @@ class Pawn(Piece):
                         #not at any row ends
                         pass
 
-
-                #highlighting possible spaces in light purple
-                for var in possibleSpaces:
-                        print(var)
-                        posSpace = board[var]
-                        posSpace.config(bg="mediumpurple4")
-
                 origSquare = board[squareIndex]
                 print(origSquare)
 
-                #EVENT
-                #move on click
-                posSpace.bind("<Button-1>",lambda event: doMove(event,origSquare = origSquare))
+                copyPossibleSpaces = possibleSpaces
+
+                #highlighting possible spaces in light purple
+                for var in copyPossibleSpaces:
+                        print(var)
+                        posSpace = board[var]
+                        posSpace.config(bg="mediumpurple4")
+                        # EVENT
+                        # move on click
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
 
 
                 #EVENT
@@ -446,19 +440,21 @@ class Knight(Piece):
                 print(possibleSpaces)
                 copyPossibleSpaces = possibleSpaces
 
+                origSquare = board[squareIndex]
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
+                        # EVENT
+                        # move on click
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
 
-                origSquare = board[squareIndex]
+
                 #print(origSquare)
 
                 #print(possibleSpaces)
-                # EVENT
-                # move on click
-                posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare))
+
 
                 # EVENT
                 # deselect on right click
@@ -573,18 +569,21 @@ class Rook(Piece):
 
                 print(copyPossibleSpaces)
 
+                origSquare = board[squareIndex]
+
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
+                        # EVENT
+                        # move on click
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
 
-                origSquare = board[squareIndex]
+
                 #print(origSquare)
 
                 #print(possibleSpaces)
-                # EVENT
-                # move on click
-                posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare))
+
 
                 # EVENT
                 # deselect on right click
@@ -716,20 +715,23 @@ class Bishop(Piece):
 
                 copyPossibleSpaces = possibleSpaces
 
+                origSquare = board[squareIndex]
+
                 # print(copyPossibleSpaces)
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
+                        # EVENT
+                        # move on click
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
 
-                origSquare = board[squareIndex]
+
                 # print(origSquare)
 
                 # print(possibleSpaces)
-                # EVENT
-                # move on click
-                posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare))
+
 
                 # EVENT
                 # deselect on right click
@@ -950,20 +952,23 @@ class Queen(Piece):
 
                 copyPossibleSpaces = possibleSpaces
 
+                origSquare = board[squareIndex]
+
                 # print(copyPossibleSpaces)
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
+                        # EVENT
+                        # move on click
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
 
-                origSquare = board[squareIndex]
+
                 # print(origSquare)
 
                 # print(possibleSpaces)
-                # EVENT
-                # move on click
-                posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare))
+
 
                 # EVENT
                 # deselect on right click
@@ -1036,25 +1041,238 @@ class King(Piece):
 
                 copyPossibleSpaces = possibleSpaces
 
+                origSquare = board[squareIndex]
+
                 # print(copyPossibleSpaces)
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
+                        # EVENT
+                        # move on click
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
 
-                origSquare = board[squareIndex]
+
                 # print(origSquare)
 
                 # print(possibleSpaces)
-                # EVENT
-                # move on click
-                posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare))
+
 
                 # EVENT
                 # deselect on right click
                 # lambda is necessary so arguments can be accepted inside the function inside bind()
                 origSquare.bind("<Button-3>", lambda event: deselect(event, possibleSpaces=copyPossibleSpaces))
+
+
+#MOVING
+def doMove(event,origSquare,possibleMoves):
+        print("DOMOVE")
+
+        #Canvases
+        newSquare = event.widget
+        origSquare = origSquare
+
+        print(origSquare)
+        print(newSquare)
+
+        #indexes
+        oldIndex = board.index(origSquare)
+        newIndex = board.index(newSquare)
+
+        #objects
+        piece = boardObjectSpaces[oldIndex]
+        otherPiece = boardObjectSpaces[newIndex]
+
+        print(piece)
+        print(otherPiece)
+
+        #set object
+        #and get correct image
+        #and determine who's turn it is after ours by getting our color
+        if piece.color == "w":
+                ourSetPiece = wPlaces[oldIndex]
+                ourColor = "w"
+                turn = "b"
+                img = boardObjectSpaces[oldIndex].wImage
+        elif piece.color == "b":
+                ourSetPiece = bPlaces[oldIndex]
+                ourColor = "b"
+                turn = "w"
+                img = boardObjectSpaces[oldIndex].bImage
+
+        #other set object
+        if otherPiece == "":
+                pass
+        elif otherPiece.color == "w":
+                otherSetPiece = wPlaces[newIndex]
+                otherColor = "w"
+                otherImg = boardObjectSpaces[newIndex].wImage
+        elif otherPiece.color == "b":
+                otherSetPiece = bPlaces[oldIndex]
+                otherColor = "b"
+                otherImg = boardObjectSpaces[newIndex].bImage
+
+
+
+
+
+
+
+        # HIGHLIGHT REMOVAL
+        print("DESELECT")
+        # make sure the background color returns to its original color
+
+        # original square de-highlight
+        if origSquare in whiteSquares:
+                bgcol = "white"
+        elif origSquare in blackSquares:
+                bgcol = "brown"
+        origSquare.config(bg=bgcol)
+
+
+        # since possibleSquares contains the indexes we use them to get the canvas widget objects
+        selCanvases = []
+
+        # highlight removal of possible squares
+        for index in possibleMoves:
+                #storing canvases using indexes
+                selCanvases.append(board[index])
+
+        # now de-highlight canvases
+        for canvas in selCanvases:
+                if canvas in whiteSquares:
+                        canvas.config(bg="white")
+                elif canvas in blackSquares:
+                        canvas.config(bg="brown")
+
+
+
+
+
+
+
+        # canvas
+        # object
+        # set object
+
+        #parameter to pass to pickPieces. Allows other player to have their turn
+        setMove = turn
+
+        # moving to new square Canvas
+        # board[newIndex].delete("all")
+        # board[newIndex].create_image(50, 50, image=img)
+
+        # need to kill opposing player and swap with same color player
+        # then switch the turns over
+        if otherPiece == "":
+            # if nothing in square
+
+            #delete from old Canvas
+            board[oldIndex].delete("all")
+            #move to new Canvas
+            board[newIndex].create_image(50, 50, image=img)
+            #move object
+            boardObjectSpaces[newIndex] = boardObjectSpaces[oldIndex]
+            #delete object from old space/give it empty space
+            boardObjectSpaces[oldIndex] = ""
+            #move set object
+            if ourColor == "w":
+                wPlaces[newIndex] = wPlaces[oldIndex]
+                wPlaces[oldIndex] = ""
+            elif ourColor == "b":
+                bPlaces[newIndex] = bPlaces[oldIndex]
+                bPlaces[oldIndex] = ""
+
+            #run pickPiece function passing in other player's color
+            pickPiece(setMove,places)
+
+        else:
+            if otherPiece.color == turn:
+                # if opposing player kill it
+
+                # otherpiece is the object
+
+                # remove from Canvas in board
+                ###########this may be a problem why square is not lighting up?
+                board[newIndex].delete("all")
+                # put new piece in canvas
+                board[newIndex].create_image(50, 50, image=img)
+                #remove killer from their previous space
+                board[oldIndex].delete("all")
+
+                # remove from object spaces
+                #replace it with the player piece and put an empty string in the previous place. The otherPiece is gone
+                boardObjectSpaces[newIndex] = piece
+                boardObjectSpaces[oldIndex] = ""
+
+                # remove from player set but do so by replacing it with an empty string
+                #don't use 'remove' etc. otherwise that will remove a space and mess up its correlation to the board
+                if turn == "w":
+                    wPlaces[newIndex] = ""
+                elif turn == "b":
+                    bPlaces[newIndex] = ""
+
+
+                #pickPiece function
+                pickPiece(setMove,places)
+
+            elif otherPiece.color == ourColor:
+                # if same set piece then swap it
+
+                # swap spaces in board Canvases
+                #other piece
+                board[oldIndex].delete("all")
+                board[oldIndex].create_image(50, 50, image=otherImg)
+                #player's piece
+                board[newIndex].delete("all")
+                board[newIndex].create_image(50, 50, image=img)
+
+                # swap spaces in boardObjectSpaces
+                boardObjectSpaces[oldIndex] = otherPiece
+                boardObjectSpaces[newIndex] = piece
+
+                # swap spaces in player set
+                if ourColor == "w":
+                    wPlaces[oldIndex] = otherPiece
+                    wPlaces[newIndex] = piece
+                elif ourColor == "b":
+                    bPlaces[oldIndex] = otherPiece
+                    bPlaces[newIndex] = piece
+
+                #run pickPiece function
+                pickPiece(setMove,places)
+
+
+
+
+
+        # removing object to new space in objectSpaces and
+        # getting the image from object
+        #make sure board space is full
+
+
+
+
+        #getting image from the other object and the color too
+        #############this is breaking because there is no object there...the space is empty
+        #############only king is moving for some reason????????
+        #queen suddenly becomes a king after king moves.... is this because of the possibleSpaces?
+
+
+
+
+        #removing from old square Canvas
+        #board[oldIndex].delete("all")
+        #removing from boardObjectSpaces
+        #del boardObjectSpaces[oldIndex]
+        #adding to new square in boardObjectSpaces
+        #boardObjectSpaces[newIndex] = piece
+
+
+        #take in the square that is clicked and move to it
+        #do that by moving object, paste object image in there, make sure you get right color by passing color in
+
 
 
 def setStartPosition(bSet,wSet,board,boardObjectSpaces):
@@ -1082,22 +1300,43 @@ def setStartPosition(bSet,wSet,board,boardObjectSpaces):
         return bSet,wSet,board,bPlaces,wPlaces,boardObjectSpaces
 
 
-def pickPiece(setMove):
-        #change cursor to plus on player's own pieces they can select
+def pickPiece(setMove,places):
+        #undo last time
+        if places != "":
+            for piece in places:
+                if piece != "":
+                    pIndex = places.index(piece)
+                    board[pIndex].config(cursor="hand2")
+                    board[pIndex].bind("<Button-1>",unbind)
+
+        #determine who's move it is
         if setMove == "w":
                 places = wPlaces
+                playerGo = "It's white's move."
         elif setMove == "b":
                 places = bPlaces
-                
+                playerGo = "It's black's move."
+
+        #display label of who's turn it is
+        playerText = tkin.Label(root, text=playerGo)
+        playerText.grid(column=10, row=0)
+
+        #do this time
         for piece in places:
                 if piece != "":
                         pIndex = places.index(piece)
-                        fullCanvas = board[pIndex]
-                        fullCanvas.config(cursor="plus")
-                        fullCanvas.bind("<Button-1>",playerSelect)
+                        # change cursor to plus on player's own pieces in their Canvas places
+                        board[pIndex].config(cursor="plus")
+                        #binding click event to the Canvases
+                        board[pIndex].bind("<Button-1>",lambda event: playerSelect(event,places = places))
+                else:
+                    #if space has no piece then loop back
+                    continue
+
+        #return places so we can clear them for the next time around
         return places
 
-def playerSelect(event):
+def playerSelect(event,places):
         #ON CLICK EVENT
         #get caller/widget that called
         caller = event.widget
@@ -1106,17 +1345,23 @@ def playerSelect(event):
         squareIndex = board.index(caller)
         piece = boardObjectSpaces[squareIndex]
 
+        fullCanvas = []
+
+        #remove crosshairs from other places and prevent them from being clicked
         for counter in places:
                 if counter != "" or places[squareIndex]:
                         pIndex = places.index(counter)
-                        fullCanvas = board[pIndex]
-                        fullCanvas.config(cursor="plus")
-                        fullCanvas.bind("<Button-1>",unbind)
+                        fullCanvas.append(board[pIndex])
+
+                        #needs to be the canvas not the object
+                        counterIndex = places.index(counter)
+                        board[counterIndex].config(cursor="hand2")
+                        board[counterIndex].bind("<Button-1>", unbind)
 
         #deselect with the right mouse button
 
 
-        possibleMoves(piece,squareIndex)
+        possibleMovements(caller,piece,squareIndex)
         ############################unbind so that we can only select one piece
         ##########unbind selected piece if rigght click and allow others to be selected
 
@@ -1152,15 +1397,16 @@ def deselect(event,possibleSpaces):
 
 
         #be able to select pieces again. Jump back to start.
-        pickPiece(setMove)
+        pickPiece(setMove,places)
 
-def possibleMoves(piece,squareIndex):
+def possibleMovements(caller,piece,squareIndex):
         #piece = piece
         #index = index
         #piece is the object
         #index is the board canvas
         #because the moves will be different for different piece types we access the move method of the piece object
         print("POSMOVE")
+        #run moves func
         piece.moves(squareIndex)
 
 
@@ -1234,6 +1480,7 @@ playerGo = "It's white's move"
 setMove = "w"
 wPlaces = []
 bPlaces = []
+places = ""
 
 #FUNCTIONS
 wPlaces,bPlaces = fillPlaces(wPlaces,bPlaces)
@@ -1245,7 +1492,7 @@ blackSquares,whiteSquares = makeBoardCanvases()
 blackSquares,whiteSquares = positionBoardCanvases(blackSquares,whiteSquares)
 board = boardSpaces(blackSquares,whiteSquares)
 bSet,wSet,board,bPlaces,wPlaces,boardObjectSpaces = setStartPosition(bSet,wSet,board,boardObjectSpaces)
-places = pickPiece(setMove)
+places = pickPiece(setMove,places)
 
 #print(bPlaces)
 #print("\n")
