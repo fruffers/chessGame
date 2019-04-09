@@ -1209,9 +1209,16 @@ def doMove(event,origSquare,possibleMoves):
                 # remove from player set but do so by replacing it with an empty string
                 #don't use 'remove' etc. otherwise that will remove a space and mess up its correlation to the board
                 if turn == "w":
+                    #this is a problem because the place seems empty when there is an opposing player in it###########
                     wPlaces[newIndex] = ""
+                    #change killer's space in their set
+                    bPlaces[newIndex] = piece
+                    bPlaces[oldIndex] = ""
                 elif turn == "b":
                     bPlaces[newIndex] = ""
+                    # change killer's space in their set
+                    wPlaces[newIndex] = piece
+                    wPlaces[oldIndex] = ""
 
 
                 #pickPiece function
@@ -1345,11 +1352,12 @@ def playerSelect(event,places):
         squareIndex = board.index(caller)
         piece = boardObjectSpaces[squareIndex]
 
+
         fullCanvas = []
 
         #remove crosshairs from other places and prevent them from being clicked
         for counter in places:
-                if counter != "" or places[squareIndex]:
+                if counter != "" or piece:
                         pIndex = places.index(counter)
                         fullCanvas.append(board[pIndex])
 
@@ -1387,14 +1395,16 @@ def deselect(event,possibleSpaces):
                 selCanvas = board[index]
                 selCanvases.append(selCanvas)
 
-        #possible squares to move to dehighlight
+        #possible squares to move to de-highlight
         for canvas in selCanvases:
                 if canvas in whiteSquares:
                         canvas.config(bg="white")
                 elif canvas in blackSquares:
                         canvas.config(bg="brown")
 
-
+        #this prevents black from losing their turn after deselecting because setMove won't return to the global 'w'
+        ourIndex = board.index(event)
+        setMove = boardObjectSpaces[ourIndex].color
 
         #be able to select pieces again. Jump back to start.
         pickPiece(setMove,places)
