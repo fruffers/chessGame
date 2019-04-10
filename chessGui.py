@@ -998,7 +998,7 @@ class King(Piece):
                 down = squareIndex + 8
 
                 diagBunch = [nw,ne,sw,se]
-                straightBunch = [left,right,up]
+                straightBunch = [left,right,up,down]
 
                 # ENDS used to determine the end of board
                 end1 = range(0, 8)
@@ -1024,20 +1024,21 @@ class King(Piece):
                         for num in diagBunch:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
-                                        break
+                                        pass
                                 elif num < 0 or num > 63:
-                                        break
+                                        pass
                                 else:
                                         possibleSpaces.append(num)
+                                        continue
 
                         #STRAIGHTS
                         for var in straightBunch:
                                 if var < 0 or var > 63:
-                                        break
+                                        pass
                                 else:
                                         possibleSpaces.append(var)
-                else:
-                        pass
+                                        continue
+
 
                 copyPossibleSpaces = possibleSpaces
 
