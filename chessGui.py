@@ -314,18 +314,54 @@ class Pawn(Piece):
                         pass
 
                 origSquare = board[squareIndex]
-                print(origSquare)
+                #print(origSquare)
 
                 copyPossibleSpaces = possibleSpaces
 
-                #highlighting possible spaces in light purple
+                ##########
+                playColor = boardObjectSpaces[squareIndex].color
+
+                # used to store spaces we will delete
+                deleteSpaces = []
+
+                # print(boardObjectSpaces)
+
+                # determining the bunch of spaces that must be removed if counter is blocking the line of sight
                 for var in copyPossibleSpaces:
-                        print(var)
+                        if boardObjectSpaces[var] != "":
+                                # not empty space
+                                if boardObjectSpaces[var].color == playColor:
+                                        # if same color then block piece in
+                                        if var == up:
+                                                deleteSpaces.append(var)
+                                        if var == down:
+                                                deleteSpaces.append(var)
+                                        if var == right:
+                                                deleteSpaces.append(var)
+                                        if var == left:
+                                                deleteSpaces.append(var)
+                                else:
+                                        # if opposite color then it is fine and counts as a potential space
+                                        pass
+
+                # removing spaces that are blocked
+                for varia in deleteSpaces:
+                        if varia in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(varia)
+                        else:
+                                pass
+
+                # print(playColor)
+                # print("copyPossibleSpaces", copyPossibleSpaces)
+
+                # highlighting possible spaces in light purple
+                for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
+                                                                         possibleMoves=copyPossibleSpaces))
 
 
                 #EVENT
@@ -442,18 +478,65 @@ class Knight(Piece):
 
                 origSquare = board[squareIndex]
 
+
+                ##########
+                playColor = boardObjectSpaces[squareIndex].color
+
+                # used to store spaces we will delete
+                deleteSpaces = []
+
+                # print(boardObjectSpaces)
+
+                # determining the bunch of spaces that must be removed if counter is blocking the line of sight
+                # the knight can jump over pieces so there is no need for a full blocker
+                # the only concern is if it lands on a white piece
+                for var in copyPossibleSpaces:
+                        if boardObjectSpaces[var] != "":
+                                # not empty space
+                                if boardObjectSpaces[var].color == playColor:
+                                        # if same color then block piece in
+                                        if var == ul:
+                                                deleteSpaces.append(var)
+                                        if var == ur:
+                                                deleteSpaces.append(var)
+                                        if var == dl:
+                                                deleteSpaces.append(var)
+                                        if var == dr:
+                                                deleteSpaces.append(var)
+                                        if var == lu:
+                                                deleteSpaces.append(var)
+                                        if var == ld:
+                                                deleteSpaces.append(var)
+                                        if var == ru:
+                                                deleteSpaces.append(var)
+                                        if var == rd:
+                                                deleteSpaces.append(var)
+                                else:
+                                        # if opposite color then it is fine and counts as a potential space
+                                        pass
+                        else:
+                                pass
+
+                # removing spaces that are blocked
+                for varia in deleteSpaces:
+                        if varia in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(varia)
+                        else:
+                                pass
+
+                # print(origSquare)
+
+                # print(possibleSpaces)
+
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
+                                                                         possibleMoves=copyPossibleSpaces))
 
-
-                #print(origSquare)
-
-                #print(possibleSpaces)
 
 
                 # EVENT
@@ -571,14 +654,58 @@ class Rook(Piece):
 
                 origSquare = board[squareIndex]
 
+                ##########
+                playColor = boardObjectSpaces[squareIndex].color
+
+                # used to store spaces we will delete
+                deleteSpaces = []
+
+                # print(boardObjectSpaces)
+
+                # determining the bunch of spaces that must be removed if counter is blocking the line of sight
+                for var in copyPossibleSpaces:
+                        if boardObjectSpaces[var] != "":
+                                # not empty space
+                                if boardObjectSpaces[var].color == playColor:
+                                        # if same color then block piece in
+                                        if var == up:
+                                                for index in copyPossibleSpaces:
+                                                        if index in upBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == down:
+                                                for index in copyPossibleSpaces:
+                                                        if index in downBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == right:
+                                                for index in copyPossibleSpaces:
+                                                        if index in rightBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == left:
+                                                for index in copyPossibleSpaces:
+                                                        if index in leftBunch:
+                                                                deleteSpaces.append(index)
+                                else:
+                                        # if opposite color then it is fine and counts as a potential space
+                                        pass
+
+                # removing spaces that are blocked
+                for varia in deleteSpaces:
+                        if varia in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(varia)
+                        else:
+                                pass
+
+                # print(playColor)
+                # print("copyPossibleSpaces", copyPossibleSpaces)
+
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
-
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
+                                                                         possibleMoves=copyPossibleSpaces))
 
                 #print(origSquare)
 
@@ -719,14 +846,59 @@ class Bishop(Piece):
 
                 # print(copyPossibleSpaces)
 
+                ##########
+                playColor = boardObjectSpaces[squareIndex].color
+
+                # used to store spaces we will delete
+                deleteSpaces = []
+
+                # print(boardObjectSpaces)
+
+                # determining the bunch of spaces that must be removed if counter is blocking the line of sight
+                for var in copyPossibleSpaces:
+                        if boardObjectSpaces[var] != "":
+                                # not empty space
+                                if boardObjectSpaces[var].color == playColor:
+                                        # if same color then block piece in
+
+                                        if var == nw:
+                                                for index in copyPossibleSpaces:
+                                                        if index in nwBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == ne:
+                                                for index in copyPossibleSpaces:
+                                                        if index in neBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == sw:
+                                                for index in copyPossibleSpaces:
+                                                        if index in swBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == se:
+                                                for index in copyPossibleSpaces:
+                                                        if index in seBunch:
+                                                                deleteSpaces.append(index)
+                                else:
+                                        # if opposite color then it is fine and counts as a potential space
+                                        pass
+
+                # removing spaces that are blocked
+                for varia in deleteSpaces:
+                        if varia in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(varia)
+                        else:
+                                pass
+
+                # print(playColor)
+                # print("copyPossibleSpaces", copyPossibleSpaces)
+
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
-
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
+                                                                         possibleMoves=copyPossibleSpaces))
 
                 # print(origSquare)
 
@@ -954,7 +1126,68 @@ class Queen(Piece):
 
                 origSquare = board[squareIndex]
 
-                # print(copyPossibleSpaces)
+                ##########
+                playColor = boardObjectSpaces[squareIndex].color
+
+                #used to store spaces we will delete
+                deleteSpaces = []
+
+                #print(boardObjectSpaces)
+
+                #determining the bunch of spaces that must be removed if counter is blocking the line of sight
+                for var in copyPossibleSpaces:
+                        if boardObjectSpaces[var] != "":
+                                #not empty space
+                                if boardObjectSpaces[var].color == playColor:
+                                        #if same color then block piece in
+                                        if var == up:
+                                                for index in copyPossibleSpaces:
+                                                        if index in upBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == down:
+                                                for index in copyPossibleSpaces:
+                                                        if index in downBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == right:
+                                                for index in copyPossibleSpaces:
+                                                        if index in rightBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == left:
+                                                for index in copyPossibleSpaces:
+                                                        if index in leftBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == nw:
+                                                for index in copyPossibleSpaces:
+                                                        if index in nwBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == ne:
+                                                for index in copyPossibleSpaces:
+                                                        if index in neBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == sw:
+                                                for index in copyPossibleSpaces:
+                                                        if index in swBunch:
+                                                                deleteSpaces.append(index)
+                                        if var == se:
+                                                for index in copyPossibleSpaces:
+                                                        if index in seBunch:
+                                                                deleteSpaces.append(index)
+                                else:
+                                        #if opposite color then it is fine and counts as a potential space
+                                        pass
+
+                #removing spaces that are blocked
+                for varia in deleteSpaces:
+                        if varia in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(varia)
+                        else:
+                                pass
+
+
+
+                #print(playColor)
+                #print("copyPossibleSpaces", copyPossibleSpaces)
+
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
@@ -962,7 +1195,8 @@ class Queen(Piece):
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
+                                                                         possibleMoves=copyPossibleSpaces))
 
 
                 # print(origSquare)
@@ -1046,14 +1280,58 @@ class King(Piece):
 
                 # print(copyPossibleSpaces)
 
+                ##########
+                playColor = boardObjectSpaces[squareIndex].color
+
+                # used to store spaces we will delete
+                deleteSpaces = []
+
+                # print(boardObjectSpaces)
+
+                # determining the bunch of spaces that must be removed if counter is blocking the line of sight
+                for var in copyPossibleSpaces:
+                        if boardObjectSpaces[var] != "":
+                                # not empty space
+                                if boardObjectSpaces[var].color == playColor:
+                                        # if same color then block piece in
+                                        if var == up:
+                                                deleteSpaces.append(var)
+                                        if var == down:
+                                                deleteSpaces.append(var)
+                                        if var == right:
+                                                deleteSpaces.append(var)
+                                        if var == left:
+                                                deleteSpaces.append(var)
+                                        if var == nw:
+                                                deleteSpaces.append(var)
+                                        if var == ne:
+                                                deleteSpaces.append(var)
+                                        if var == sw:
+                                                deleteSpaces.append(var)
+                                        if var == se:
+                                                deleteSpaces.append(var)
+                                else:
+                                        # if opposite color then it is fine and counts as a potential space
+                                        pass
+
+                # removing spaces that are blocked
+                for varia in deleteSpaces:
+                        if varia in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(varia)
+                        else:
+                                pass
+
+                # print(playColor)
+                # print("copyPossibleSpaces", copyPossibleSpaces)
+
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,possibleMoves=copyPossibleSpaces))
-
+                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
+                                                                         possibleMoves=copyPossibleSpaces))
 
                 # print(origSquare)
 
@@ -1477,13 +1755,13 @@ def fillPlaces(wPlaces,bPlaces):
 
         return wPlaces,bPlaces
 
-def turn(setMove):
-        if setMove == "w":
-                for space in wPlaces:
-                        if space != "":
-                                spaceIndex = wPlaces.index(space)
-                                board[spaceIndex]
-        
+# def turn(setMove):
+#         if setMove == "w":
+#                 for space in wPlaces:
+#                         if space != "":
+#                                 spaceIndex = wPlaces.index(space)
+#                                 board[spaceIndex]
+#
         
 #TRACKERS        
 moveNo = 0
