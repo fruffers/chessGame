@@ -1122,7 +1122,11 @@ class Queen(Piece):
                                 rightCount -= 1
                                 continue
 
+
+
                 copyPossibleSpaces = possibleSpaces
+
+                print("copypos",copyPossibleSpaces)
 
                 origSquare = board[squareIndex]
 
@@ -1138,59 +1142,114 @@ class Queen(Piece):
                 for var in copyPossibleSpaces:
                         if boardObjectSpaces[var] != "":
                                 #not empty space
-                                if boardObjectSpaces[var].color == playColor:
-                                        #if same color then block piece in
-                                        if var == up:
-                                                for index in copyPossibleSpaces:
-                                                        if index in upBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == down:
-                                                for index in copyPossibleSpaces:
-                                                        if index in downBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == right:
-                                                for index in copyPossibleSpaces:
-                                                        if index in rightBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == left:
-                                                for index in copyPossibleSpaces:
-                                                        if index in leftBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == nw:
-                                                for index in copyPossibleSpaces:
-                                                        if index in nwBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == ne:
-                                                for index in copyPossibleSpaces:
-                                                        if index in neBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == sw:
-                                                for index in copyPossibleSpaces:
-                                                        if index in swBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == se:
-                                                for index in copyPossibleSpaces:
-                                                        if index in seBunch:
-                                                                deleteSpaces.append(index)
-                                else:
-                                        #if opposite color then it is fine and counts as a potential space
-                                        pass
+                                if boardObjectSpaces[var].color == playColor or boardObjectSpaces[var] != playColor:
+                                        #if same color or oppo then block piece in
 
-                #removing spaces that are blocked
-                for varia in deleteSpaces:
-                        if varia in copyPossibleSpaces:
-                                copyPossibleSpaces.remove(varia)
+                                        if var in nwBunch:
+                                                sliceIndex = nwBunch.index(var)
+                                                deleteSpaces.append(nwBunch[sliceIndex+1:])
+
+                                        if var in neBunch:
+                                                #print("ne",var)
+                                                ###problem not picking first square
+                                                sliceIndex = neBunch.index(var)
+                                                deleteSpaces.append(neBunch[sliceIndex+1:])
+
+                                        if var in swBunch:
+                                                sliceIndex = swBunch.index(var)
+                                                deleteSpaces.append(swBunch[sliceIndex+1:])
+
+                                        if var in seBunch:
+                                                sliceIndex = seBunch.index(var)
+                                                deleteSpaces.append(seBunch[sliceIndex+1:])
+
+                                        if var in upBunch:
+                                                #print("up")
+                                                #slices get the space to start then to the end of array
+                                                sliceIndex = upBunch.index(var)
+                                                deleteSpaces.append(upBunch[sliceIndex+1:])
+
+                                        if var in downBunch:
+                                                #print("down")
+                                                sliceIndex = downBunch.index(var)
+                                                deleteSpaces.append(downBunch[sliceIndex+1:])
+
+                                        if var in rightBunch:
+                                                #print("right")
+                                                sliceIndex = rightBunch.index(var)
+                                                deleteSpaces.append(rightBunch[sliceIndex+1:])
+
+                                        if var in leftBunch:
+                                                sliceIndex = leftBunch.index(var)
+                                                deleteSpaces.append(leftBunch[sliceIndex+1:])
+                                        else:
+                                                #print("pass")
+                                                pass
+
+                                #if boardObjectSpaces[var].color != playColor:
+                                #if opposite color then only the place counter is on is fine and counts as a potential space
+                                #copyPossibleSpaces.append(var)
+
+                #oppoUnremove = [left,right,up,down,sw,nw,se,ne]
+
+                print(deleteSpaces)
+                deleteNoDupl = []
+
+                #removing duplicates
+                #block = list(dict.fromkeys(deleteSpaces))
+                #print(block)
+
+                immediateSpaces = [up, down, left, right, nw, se, sw, ne]
+
+                for lista in deleteSpaces:
+                        block = list(dict.fromkeys(lista))
+                        for num in block:
+                                deleteNoDupl.append(num)
+
+                deleteIndexaFin = list(dict.fromkeys(deleteNoDupl))
+
+                print("immediate",immediateSpaces)
+
+                for num in deleteIndexaFin:
+                        if num in immediateSpaces:
+                                print("hhashda",num)
+                                deleteIndexaFin.remove(num)
+                        elif num > 63 or num < 0:
+                                deleteIndexaFin.remove(num)
                         else:
                                 pass
+
+                print(deleteIndexaFin)
+
+
+
+                for indexa in deleteIndexaFin:
+                        if indexa in copyPossibleSpaces:
+                                        copyPossibleSpaces.remove(indexa)
+                        else:
+                                pass
+
+                #removing spaces that are blocked
+                #for listy in deleteSpaces:
+                        #for indexa in listy:
+                                #if indexa in copyPossibleSpaces:
+                                        #copyPossibleSpaces.remove(indexa)
+                                #else:
+                                        #pass
+
+                #for varia in deleteSpaces:
+                        #if varia in copyPossibleSpaces:
+                                #copyPossibleSpaces.remove(varia)
 
 
 
                 #print(playColor)
                 #print("copyPossibleSpaces", copyPossibleSpaces)
-
+                print(copyPossibleSpaces)
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
+                        print(var)
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
