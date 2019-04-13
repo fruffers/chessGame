@@ -1007,7 +1007,7 @@ class Queen(Piece):
                                 elif num < 0 or num > 63:
                                         break
                                 else:
-                                        print(num)
+                                        #print(num)
                                         possibleSpaces.append(num)
 
                         for num in seBunch:
@@ -1044,6 +1044,8 @@ class Queen(Piece):
 
                 leftBunch = [left, l2, l3, l4, l5, l6, l7]
 
+                print("leftBunch", leftBunch)
+
                 # RIGHT
                 right = squareIndex + 1
                 r2 = right + 1
@@ -1055,6 +1057,7 @@ class Queen(Piece):
                 # r8 = r7+1
 
                 rightBunch = [right, r2, r3, r4, r5, r6, r7]
+
 
                 # UP
                 up = squareIndex - 8
@@ -1093,34 +1096,85 @@ class Queen(Piece):
                 upCount = 0
                 downCount = 7
 
-                # up and down
-                for row in rows:
-                        if squareIndex in row:
-                                for num in range(0, downCount):
-                                        possibleSpaces.append(downBunch[num])
+                playColor = boardObjectSpaces[squareIndex].color
 
-                                for num in range(0, upCount):
-                                        possibleSpaces.append(upBunch[num])
+                # up and down
+                for var in downBunch:
+                        if var > 0 and var < 63:
+                                if var not in endsIndexes:
+                                        possibleSpaces.append(var)
+                                else:
+                                        possibleSpaces.append(var)
+                                        break
                         else:
-                                upCount += 1
-                                downCount -= 1
-                                continue
+                                pass
+
+                for var in upBunch:
+                        if var > 0 and var < 63:
+                                if var not in endsIndexes:
+                                        possibleSpaces.append(var)
+                                else:
+                                        possibleSpaces.append(var)
+                                        break
+                        else:
+                                pass
+
+
+                #left and right
+                ###########
+                for var in leftBunch:
+                        print(var)
+                        if var > 0 and var < 63:
+                                if var not in endsIndexes:
+                                        possibleSpaces.append(var)
+                                else:
+                                        #break breaks the loop so no more spaces are added after the one that hit the end index
+                                        #but not before adding that final space at the end
+                                        possibleSpaces.append(var)
+                                        break
+                        else:
+                                pass
+
+                print(endsIndexes)
+
+                for var in rightBunch:
+                        if var > 0 and var < 63:
+                                if var not in endsIndexes:
+                                        possibleSpaces.append(var)
+                                else:
+                                        possibleSpaces.append(var)
+                                        break
+                        else:
+                                pass
+
+                # for row in rows:
+                #         if squareIndex in row:
+                #                 for num in range(0, downCount):
+                #                         possibleSpaces.append(downBunch[num])
+                #
+                #                 for num in range(0, upCount):
+                #                         possibleSpaces.append(upBunch[num])
+                #         else:
+                #                 upCount += 1
+                #                 downCount -= 1
+                #                 continue
 
                 # left and right
                 leftCount = 0
                 rightCount = 7
 
-                for col in cols:
-                        if squareIndex in col:
-                                for num in range(0, leftCount):
-                                        possibleSpaces.append(leftBunch[num])
-
-                                for num in range(0, rightCount):
-                                        possibleSpaces.append(rightBunch[num])
-                        else:
-                                leftCount += 1
-                                rightCount -= 1
-                                continue
+                #######problem in here for ne
+                # for col in cols:
+                #         if squareIndex in col:
+                #                 for num in range(0, leftCount):
+                #                         possibleSpaces.append(leftBunch[num])
+                #
+                #                 for num in range(0, rightCount):
+                #                         possibleSpaces.append(rightBunch[num])
+                #         else:
+                #                 leftCount += 1
+                #                 rightCount -= 1
+                #                 continue
 
 
 
@@ -1131,7 +1185,7 @@ class Queen(Piece):
                 origSquare = board[squareIndex]
 
                 ##########
-                playColor = boardObjectSpaces[squareIndex].color
+
 
                 #used to store spaces we will delete
                 deleteSpaces = []
@@ -1142,8 +1196,50 @@ class Queen(Piece):
                 for var in copyPossibleSpaces:
                         if boardObjectSpaces[var] != "":
                                 #not empty space
-                                if boardObjectSpaces[var].color == playColor or boardObjectSpaces[var] != playColor:
-                                        #if same color or oppo then block piece in
+                                if boardObjectSpaces[var].color == playColor:
+                                        #if same color then block piece in and don't include counter space
+                                        if var in nwBunch:
+                                                sliceIndex = nwBunch.index(var)
+                                                deleteSpaces.append(nwBunch[sliceIndex:])
+
+                                        if var in neBunch:
+                                                #print("ne",var)
+                                                ###problem not picking first square
+                                                sliceIndex = neBunch.index(var)
+                                                deleteSpaces.append(neBunch[sliceIndex:])
+
+                                        if var in swBunch:
+                                                sliceIndex = swBunch.index(var)
+                                                deleteSpaces.append(swBunch[sliceIndex:])
+
+                                        if var in seBunch:
+                                                sliceIndex = seBunch.index(var)
+                                                deleteSpaces.append(seBunch[sliceIndex:])
+
+                                        if var in upBunch:
+                                                #print("up")
+                                                #slices get the space to start then to the end of array
+                                                sliceIndex = upBunch.index(var)
+                                                deleteSpaces.append(upBunch[sliceIndex:])
+
+                                        if var in downBunch:
+                                                #print("down")
+                                                sliceIndex = downBunch.index(var)
+                                                deleteSpaces.append(downBunch[sliceIndex:])
+
+                                        if var in rightBunch:
+                                                #print("right")
+                                                sliceIndex = rightBunch.index(var)
+                                                deleteSpaces.append(rightBunch[sliceIndex:])
+
+                                        if var in leftBunch:
+                                                sliceIndex = leftBunch.index(var)
+                                                deleteSpaces.append(leftBunch[sliceIndex:])
+                                        else:
+                                                #print("pass")
+                                                pass
+                                if boardObjectSpaces[var] != playColor:
+                                        #if opposite color count this space and block it in
 
                                         if var in nwBunch:
                                                 sliceIndex = nwBunch.index(var)
@@ -1192,6 +1288,8 @@ class Queen(Piece):
 
                 #oppoUnremove = [left,right,up,down,sw,nw,se,ne]
 
+                #print("hello",boardObjectSpaces[10].color)
+
                 print(deleteSpaces)
                 deleteNoDupl = []
 
@@ -1199,27 +1297,29 @@ class Queen(Piece):
                 #block = list(dict.fromkeys(deleteSpaces))
                 #print(block)
 
+                ###############
                 immediateSpaces = [up, down, left, right, nw, se, sw, ne]
 
+                #remove duplicates by converting to dictionary
                 for lista in deleteSpaces:
                         block = list(dict.fromkeys(lista))
                         for num in block:
                                 deleteNoDupl.append(num)
 
+                #remove duplicates
                 deleteIndexaFin = list(dict.fromkeys(deleteNoDupl))
 
-                print("immediate",immediateSpaces)
+                #print("immediate",immediateSpaces)
 
-                for num in deleteIndexaFin:
-                        if num in immediateSpaces:
-                                print("hhashda",num)
-                                deleteIndexaFin.remove(num)
-                        elif num > 63 or num < 0:
-                                deleteIndexaFin.remove(num)
-                        else:
-                                pass
+                # for num in deleteIndexaFin:
+                #         if num in immediateSpaces:
+                #                 deleteIndexaFin.remove(num)
+                #         elif num > 63 or num < 0:
+                #                 deleteIndexaFin.remove(num)
+                #         else:
+                #                 pass
 
-                print(deleteIndexaFin)
+                #print(deleteIndexaFin)
 
 
 
