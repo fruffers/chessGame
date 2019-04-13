@@ -786,7 +786,24 @@ class Bishop(Piece):
                 end1 = range(0,8)
                 end2 = range(0,57,8)
                 end3 = range(56,64)
-                end4 = range(7,57,8)
+                end4 = range(7,64,8)
+
+                print("end1", end1)
+
+                upEnd = []
+                leftEnd = []
+                downEnd = []
+                rightEnd = []
+
+                for num in end1:
+                        upEnd.append(num)
+                for num in end2:
+                        leftEnd.append(num)
+                for num in end3:
+                        downEnd.append(num)
+                for num in end4:
+                        rightEnd.append(num)
+
 
                 ends = [end1,end2,end3,end4]
                 endsIndexes = []
@@ -799,40 +816,52 @@ class Bishop(Piece):
 
                 #calculate possible spaces using movement bunches and end numbers
                 #if one of the nums in the bunches hits an end then the loop stops and moves onto the next direction loop
-                if squareIndex:
-                        for num in nwBunch:
+
+                for num in nwBunch:
+                        if squareIndex in leftEnd or squareIndex in upEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
                                         possibleSpaces.append(num)
 
-                        for num in neBunch:
+                for num in neBunch:
+                        if squareIndex in upEnd or squareIndex in rightEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
                                         print(num)
                                         possibleSpaces.append(num)
 
-                        for num in seBunch:
+                for num in seBunch:
+                        if squareIndex in downEnd or squareIndex in rightEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
                                         possibleSpaces.append(num)
 
-                        for num in swBunch:
+                for num in swBunch:
+                        if squareIndex in leftEnd or squareIndex in downEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
                                         possibleSpaces.append(num)
@@ -859,32 +888,76 @@ class Bishop(Piece):
                         if boardObjectSpaces[var] != "":
                                 # not empty space
                                 if boardObjectSpaces[var].color == playColor:
-                                        # if same color then block piece in
+                                        # if same color then block piece in and don't include counter space
+                                        if var in nwBunch:
+                                                sliceIndex = nwBunch.index(var)
+                                                deleteSpaces.append(nwBunch[sliceIndex:])
 
-                                        if var == nw:
-                                                for index in copyPossibleSpaces:
-                                                        if index in nwBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == ne:
-                                                for index in copyPossibleSpaces:
-                                                        if index in neBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == sw:
-                                                for index in copyPossibleSpaces:
-                                                        if index in swBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == se:
-                                                for index in copyPossibleSpaces:
-                                                        if index in seBunch:
-                                                                deleteSpaces.append(index)
-                                else:
-                                        # if opposite color then it is fine and counts as a potential space
-                                        pass
+                                        if var in neBunch:
+                                                # print("ne",var)
+                                                ###problem not picking first square
+                                                sliceIndex = neBunch.index(var)
+                                                deleteSpaces.append(neBunch[sliceIndex:])
 
-                # removing spaces that are blocked
-                for varia in deleteSpaces:
-                        if varia in copyPossibleSpaces:
-                                copyPossibleSpaces.remove(varia)
+                                        if var in swBunch:
+                                                sliceIndex = swBunch.index(var)
+                                                deleteSpaces.append(swBunch[sliceIndex:])
+
+                                        if var in seBunch:
+                                                sliceIndex = seBunch.index(var)
+                                                deleteSpaces.append(seBunch[sliceIndex:])
+
+                                        else:
+                                                # print("pass")
+                                                pass
+                                if boardObjectSpaces[var] != playColor:
+                                        # if opposite color count this space and block it in
+
+                                        if var in nwBunch:
+                                                sliceIndex = nwBunch.index(var)
+                                                deleteSpaces.append(nwBunch[sliceIndex + 1:])
+
+                                        if var in neBunch:
+                                                # print("ne",var)
+                                                ###problem not picking first square
+                                                sliceIndex = neBunch.index(var)
+                                                deleteSpaces.append(neBunch[sliceIndex + 1:])
+
+                                        if var in swBunch:
+                                                sliceIndex = swBunch.index(var)
+                                                deleteSpaces.append(swBunch[sliceIndex + 1:])
+
+                                        if var in seBunch:
+                                                sliceIndex = seBunch.index(var)
+                                                deleteSpaces.append(seBunch[sliceIndex + 1:])
+
+                                        else:
+                                                # print("pass")
+                                                pass
+
+                                # if boardObjectSpaces[var].color != playColor:
+                                # if opposite color then only the place counter is on is fine and counts as a potential space
+                                # copyPossibleSpaces.append(var)
+
+                # oppoUnremove = [left,right,up,down,sw,nw,se,ne]
+
+
+                print(deleteSpaces)
+                deleteNoDupl = []
+
+
+                # remove duplicates by converting to dictionary
+                for lista in deleteSpaces:
+                        block = list(dict.fromkeys(lista))
+                        for num in block:
+                                deleteNoDupl.append(num)
+
+                # remove duplicates
+                deleteIndexaFin = list(dict.fromkeys(deleteNoDupl))
+
+                for indexa in deleteIndexaFin:
+                        if indexa in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(indexa)
                         else:
                                 pass
 
@@ -974,10 +1047,27 @@ class Queen(Piece):
                 # cols = [col1, col2, col3, col4, col5, col6, col7, col8]
 
                 # ENDS used to determine the end of board
+                # ENDS used to determine the end of board
                 end1 = range(0, 8)
                 end2 = range(0, 57, 8)
                 end3 = range(56, 64)
-                end4 = range(7, 57, 8)
+                end4 = range(7, 64, 8)
+
+                print("end1", end1)
+
+                upEnd = []
+                leftEnd = []
+                downEnd = []
+                rightEnd = []
+
+                for num in end1:
+                        upEnd.append(num)
+                for num in end2:
+                        leftEnd.append(num)
+                for num in end3:
+                        downEnd.append(num)
+                for num in end4:
+                        rightEnd.append(num)
 
                 ends = [end1, end2, end3, end4]
                 endsIndexes = []
@@ -990,40 +1080,53 @@ class Queen(Piece):
 
                 # calculate possible spaces using movement bunches and end numbers
                 # if one of the nums in the bunches hits an end then the loop stops and moves onto the next direction loop
-                if squareIndex:
-                        for num in nwBunch:
+
+                #DIAGONALS
+                for num in nwBunch:
+                        if squareIndex in leftEnd or squareIndex in upEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
                                         possibleSpaces.append(num)
 
-                        for num in neBunch:
+                for num in neBunch:
+                        if squareIndex in upEnd or squareIndex in rightEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
-                                        #print(num)
+                                        print(num)
                                         possibleSpaces.append(num)
 
-                        for num in seBunch:
+                for num in seBunch:
+                        if squareIndex in downEnd or squareIndex in rightEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
                                         possibleSpaces.append(num)
 
-                        for num in swBunch:
+                for num in swBunch:
+                        if squareIndex in leftEnd or squareIndex in downEnd:
+                                break
+                        else:
                                 if num in endsIndexes:
                                         possibleSpaces.append(num)
                                         break
-                                elif num < 0 or num > 63:
+                                if num < 0 or num > 63:
                                         break
                                 else:
                                         possibleSpaces.append(num)
@@ -1100,52 +1203,63 @@ class Queen(Piece):
 
                 # up and down
                 for var in downBunch:
-                        if var > 0 and var < 63:
-                                if var not in endsIndexes:
-                                        possibleSpaces.append(var)
-                                else:
-                                        possibleSpaces.append(var)
-                                        break
+                        if squareIndex in downEnd:
+                                break
                         else:
-                                pass
+                                if var > 0 and var < 63:
+                                        if var not in endsIndexes:
+                                                possibleSpaces.append(var)
+                                        else:
+                                                possibleSpaces.append(var)
+                                                break
+                                else:
+                                        break
 
                 for var in upBunch:
-                        if var > 0 and var < 63:
-                                if var not in endsIndexes:
-                                        possibleSpaces.append(var)
-                                else:
-                                        possibleSpaces.append(var)
-                                        break
+                        if squareIndex in upEnd:
+                                break
                         else:
-                                pass
+                                if var > 0 and var < 63:
+                                        if var not in endsIndexes:
+                                                possibleSpaces.append(var)
+                                        else:
+                                                possibleSpaces.append(var)
+                                                break
+                                else:
+                                        break
 
 
                 #left and right
                 ###########
                 for var in leftBunch:
-                        print(var)
-                        if var > 0 and var < 63:
-                                if var not in endsIndexes:
-                                        possibleSpaces.append(var)
-                                else:
-                                        #break breaks the loop so no more spaces are added after the one that hit the end index
-                                        #but not before adding that final space at the end
-                                        possibleSpaces.append(var)
-                                        break
+                        if squareIndex in leftEnd:
+                                break
                         else:
-                                pass
+                                if var > 0 and var < 63:
+                                        if var not in endsIndexes:
+                                                possibleSpaces.append(var)
+                                        else:
+                                                #break breaks the loop so no more spaces are added after the one that hit the end index
+                                                #but not before adding that final space at the end
+                                                possibleSpaces.append(var)
+                                                break
+                                else:
+                                        break
 
                 print(endsIndexes)
 
                 for var in rightBunch:
-                        if var > 0 and var < 63:
-                                if var not in endsIndexes:
-                                        possibleSpaces.append(var)
-                                else:
-                                        possibleSpaces.append(var)
-                                        break
+                        if squareIndex in rightEnd:
+                                break
                         else:
-                                pass
+                                if var > 0 and var < 63:
+                                        if var not in endsIndexes:
+                                                possibleSpaces.append(var)
+                                        else:
+                                                possibleSpaces.append(var)
+                                                break
+                                else:
+                                        break
 
                 # for row in rows:
                 #         if squareIndex in row:
@@ -1293,11 +1407,7 @@ class Queen(Piece):
                 print(deleteSpaces)
                 deleteNoDupl = []
 
-                #removing duplicates
-                #block = list(dict.fromkeys(deleteSpaces))
-                #print(block)
 
-                ###############
                 immediateSpaces = [up, down, left, right, nw, se, sw, ne]
 
                 #remove duplicates by converting to dictionary
@@ -1309,18 +1419,6 @@ class Queen(Piece):
                 #remove duplicates
                 deleteIndexaFin = list(dict.fromkeys(deleteNoDupl))
 
-                #print("immediate",immediateSpaces)
-
-                # for num in deleteIndexaFin:
-                #         if num in immediateSpaces:
-                #                 deleteIndexaFin.remove(num)
-                #         elif num > 63 or num < 0:
-                #                 deleteIndexaFin.remove(num)
-                #         else:
-                #                 pass
-
-                #print(deleteIndexaFin)
-
 
 
                 for indexa in deleteIndexaFin:
@@ -1328,19 +1426,6 @@ class Queen(Piece):
                                         copyPossibleSpaces.remove(indexa)
                         else:
                                 pass
-
-                #removing spaces that are blocked
-                #for listy in deleteSpaces:
-                        #for indexa in listy:
-                                #if indexa in copyPossibleSpaces:
-                                        #copyPossibleSpaces.remove(indexa)
-                                #else:
-                                        #pass
-
-                #for varia in deleteSpaces:
-                        #if varia in copyPossibleSpaces:
-                                #copyPossibleSpaces.remove(varia)
-
 
 
                 #print(playColor)
