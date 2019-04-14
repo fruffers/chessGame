@@ -280,6 +280,8 @@ class Pawn(Piece):
         wOpen= Image.open("mats/wPawn.png")
         wImage= ImageTk.PhotoImage(wOpen)
 
+        kind = "pawn"
+
 
         def moves(self,squareIndex):
                 print("PAWN MOVE")
@@ -377,6 +379,7 @@ class Knight(Piece):
         wOpen= Image.open("mats/wKnight.png")
         wImage= ImageTk.PhotoImage(wOpen)
 
+        kind = "knight"
 
         def moves(self,squareIndex):
 
@@ -551,6 +554,8 @@ class Rook(Piece):
         bImage= ImageTk.PhotoImage(bOpen)
         wOpen= Image.open("mats/wRook.png")
         wImage= ImageTk.PhotoImage(wOpen)
+
+        kind = "rook"
 
         def moves(self,squareIndex):
 
@@ -785,6 +790,8 @@ class Bishop(Piece):
         bImage= ImageTk.PhotoImage(bOpen)
         wOpen= Image.open("mats/wBishop.png")
         wImage= ImageTk.PhotoImage(wOpen)
+
+        kind = "bishop"
 
         def endBreaker(self):
                 pass
@@ -1053,6 +1060,8 @@ class Queen(Piece):
         bImage= ImageTk.PhotoImage(bOpen)
         wOpen= Image.open("mats/wQueen.png")
         wImage= ImageTk.PhotoImage(wOpen)
+
+        kind = "queen"
 
         def moves(self,squareIndex):
 
@@ -1558,6 +1567,8 @@ class King(Piece):
         wOpen= Image.open("mats/wKing.png")
         wImage= ImageTk.PhotoImage(wOpen)
 
+        kind = "king"
+
         def moves(self,squareIndex):
                 #King moves 1 square horizontally,vertically, or diagonally
 
@@ -1767,11 +1778,6 @@ def doMove(event,origSquare,possibleMoves):
                         canvas.config(bg="brown")
 
 
-
-
-
-
-
         # canvas
         # object
         # set object
@@ -1814,7 +1820,6 @@ def doMove(event,origSquare,possibleMoves):
                 # otherpiece is the object
 
                 # remove from Canvas in board
-                ###########this may be a problem why square is not lighting up?
                 board[newIndex].delete("all")
                 # put new piece in canvas
                 board[newIndex].create_image(50, 50, image=img)
@@ -1829,7 +1834,6 @@ def doMove(event,origSquare,possibleMoves):
                 # remove from player set but do so by replacing it with an empty string
                 #don't use 'remove' etc. otherwise that will remove a space and mess up its correlation to the board
                 if turn == "w":
-                    #this is a problem because the place seems empty when there is an opposing player in it###########
                     wPlaces[newIndex] = ""
                     #change killer's space in their set
                     bPlaces[newIndex] = piece
@@ -1841,8 +1845,12 @@ def doMove(event,origSquare,possibleMoves):
                     wPlaces[oldIndex] = ""
 
 
-                #pickPiece function
-                pickPiece(setMove,places)
+                if otherPiece.kind == "king":
+                        #if the king dies run the winlose function and end the game
+                        winLose(otherPiece)
+                else:
+                        #pickPiece function
+                        pickPiece(setMove,places)
 
             elif otherPiece.color == ourColor:
                 # if same set piece then swap it
@@ -1870,35 +1878,6 @@ def doMove(event,origSquare,possibleMoves):
                 #run pickPiece function
                 pickPiece(setMove,places)
 
-
-
-
-
-        # removing object to new space in objectSpaces and
-        # getting the image from object
-        #make sure board space is full
-
-
-
-
-        #getting image from the other object and the color too
-        #############this is breaking because there is no object there...the space is empty
-        #############only king is moving for some reason????????
-        #queen suddenly becomes a king after king moves.... is this because of the possibleSpaces?
-
-
-
-
-        #removing from old square Canvas
-        #board[oldIndex].delete("all")
-        #removing from boardObjectSpaces
-        #del boardObjectSpaces[oldIndex]
-        #adding to new square in boardObjectSpaces
-        #boardObjectSpaces[newIndex] = piece
-
-
-        #take in the square that is clicked and move to it
-        #do that by moving object, paste object image in there, make sure you get right color by passing color in
 
 
 
@@ -2045,6 +2024,46 @@ def playerMove(event,active,board,boardObjectSpaces):
         active.calculateMove(board,boardObjectSpaces)
         
 
+def winLose(otherPiece):
+        #if king dies
+
+        popup = tkin.Tk()
+        popup.geometry("1000x800")
+
+        popup.wm_title("You WIN!!!")
+
+        label = tkin.Label(popup, font=("Helvetica", 100))
+
+        if otherPiece.color == "b":
+                #white wins
+                msg = "White Wins!!"
+                popup.config(bg="white")
+                label.config(bg="white", fg="black")
+
+        if otherPiece.color == "w":
+                #black wins
+                msg = "Black Wins!!"
+                popup.config(bg="black")
+                label.config(bg="black", fg="white")
+
+
+        label.config(text=msg)
+
+
+        label.pack()
+
+        popup.mainloop()
+
+
+
+
+        #display menu
+
+
+def wWin(winScreen):
+        root.config(menu=winScreen)
+def bWin(winScreen):
+        root.config(menu=winScreen)
 
 #OBJECTS
 #16 total in each set
