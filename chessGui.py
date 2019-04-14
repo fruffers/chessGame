@@ -6,6 +6,14 @@
 #PIL is pillow
 import tkinter as tkin
 from PIL import ImageTk,Image
+from pygame import mixer
+
+
+mixer.init()
+mixer.music.load("bensound-theduel.mp3")
+mixer.music.play()
+
+
 
 #master root and window
 root = tkin.Tk()
@@ -2202,7 +2210,9 @@ places = pickPiece(setMove,places)
 #[["w",1],["b",1],]
 
 #main
-root.mainloop()        
+root.mainloop()
+
+
 
 
                 
