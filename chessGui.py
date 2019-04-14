@@ -1204,62 +1204,82 @@ class Queen(Piece):
                 # up and down
                 for var in downBunch:
                         if squareIndex in downEnd:
+                                downBunch = []
                                 break
+                        elif 63 > var < 0:
+                                downBunch.remove(var)
+                        elif var in downEnd:
+                                possibleSpaces.append(var)
+
+                                rIndex = downBunch.index(var)
+                                #+1 is important so the absolute last index hitting the end stays in the bunch
+                                removal = downBunch[rIndex+1:]
+                                for num in removal:
+                                        downBunch.remove(num)
                         else:
-                                if var > 0 and var < 63:
-                                        if var not in endsIndexes:
-                                                possibleSpaces.append(var)
-                                        else:
-                                                possibleSpaces.append(var)
-                                                break
-                                else:
-                                        break
+                                possibleSpaces.append(var)
+
 
                 for var in upBunch:
                         if squareIndex in upEnd:
+                                upBunch = []
                                 break
+                        elif 63 > var < 0:
+                                upBunch.remove(var)
+                        elif var in upEnd:
+                                possibleSpaces.append(var)
+
+                                rIndex = upBunch.index(var)
+                                #+1 is important so the absolute last index hitting the end stays in the bunch
+                                removal = upBunch[rIndex+1:]
+                                for num in removal:
+                                        upBunch.remove(num)
                         else:
-                                if var > 0 and var < 63:
-                                        if var not in endsIndexes:
-                                                possibleSpaces.append(var)
-                                        else:
-                                                possibleSpaces.append(var)
-                                                break
-                                else:
-                                        break
+                                possibleSpaces.append(var)
 
 
-                #left and right
-                ###########
+
+
+                #left
                 for var in leftBunch:
                         if squareIndex in leftEnd:
+                                leftBunch = []
                                 break
+                        elif 63 > var < 0:
+                                leftBunch.remove(var)
+                        elif var in leftEnd:
+                                possibleSpaces.append(var)
+
+                                rIndex = leftBunch.index(var)
+                                #+1 is important so the absolute last index hitting the end stays in the bunch
+                                removal = leftBunch[rIndex+1:]
+                                for num in removal:
+                                        leftBunch.remove(num)
                         else:
-                                if var > 0 and var < 63:
-                                        if var not in endsIndexes:
-                                                possibleSpaces.append(var)
-                                        else:
-                                                #break breaks the loop so no more spaces are added after the one that hit the end index
-                                                #but not before adding that final space at the end
-                                                possibleSpaces.append(var)
-                                                break
-                                else:
-                                        break
+                                possibleSpaces.append(var)
 
-                print(endsIndexes)
 
+                #print("leftBunch",leftBunch)
+
+                #right
                 for var in rightBunch:
                         if squareIndex in rightEnd:
+                                rightBunch = []
                                 break
+                        elif 63 > var < 0:
+                                leftBunch.remove(var)
+                        elif var in rightEnd:
+                                possibleSpaces.append(var)
+
+                                rIndex = rightBunch.index(var)
+                                removal = rightBunch[rIndex+1:]
+                                for num in removal:
+                                        rightBunch.remove(num)
                         else:
-                                if var > 0 and var < 63:
-                                        if var not in endsIndexes:
-                                                possibleSpaces.append(var)
-                                        else:
-                                                possibleSpaces.append(var)
-                                                break
-                                else:
-                                        break
+                                possibleSpaces.append(var)
+
+
+                #print("rightbunch",rightBunch)
 
                 # for row in rows:
                 #         if squareIndex in row:
@@ -1294,11 +1314,13 @@ class Queen(Piece):
 
                 copyPossibleSpaces = possibleSpaces
 
-                print("copypos",copyPossibleSpaces)
+
+                print("copypos",copyPossibleSpaces,"enddd")
 
                 origSquare = board[squareIndex]
 
                 ##########
+
 
 
                 #used to store spaces we will delete
@@ -1395,6 +1417,8 @@ class Queen(Piece):
                                         else:
                                                 #print("pass")
                                                 pass
+                        elif boardObjectSpaces[var] == "":
+                                pass
 
                                 #if boardObjectSpaces[var].color != playColor:
                                 #if opposite color then only the place counter is on is fine and counts as a potential space
@@ -1402,9 +1426,10 @@ class Queen(Piece):
 
                 #oppoUnremove = [left,right,up,down,sw,nw,se,ne]
 
+
                 #print("hello",boardObjectSpaces[10].color)
 
-                print(deleteSpaces)
+                #print(deleteSpaces)
                 deleteNoDupl = []
 
 
@@ -1421,6 +1446,15 @@ class Queen(Piece):
 
 
 
+                for item in deleteIndexaFin:
+                        if item < 0:
+                                deleteIndexaFin.remove(item)
+                        if item > 63:
+                                deleteIndexaFin.remove(item)
+
+                        ########if item in ends index remove all after it???
+
+
                 for indexa in deleteIndexaFin:
                         if indexa in copyPossibleSpaces:
                                         copyPossibleSpaces.remove(indexa)
@@ -1428,13 +1462,15 @@ class Queen(Piece):
                                 pass
 
 
+                print("del fin",deleteIndexaFin)
+
                 #print(playColor)
                 #print("copyPossibleSpaces", copyPossibleSpaces)
-                print(copyPossibleSpaces)
+                print("new copy",copyPossibleSpaces)
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
-                        print(var)
+                        #print(var)
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
