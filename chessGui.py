@@ -667,33 +667,94 @@ class Rook(Piece):
                         if boardObjectSpaces[var] != "":
                                 # not empty space
                                 if boardObjectSpaces[var].color == playColor:
-                                        # if same color then block piece in
-                                        if var == up:
-                                                for index in copyPossibleSpaces:
-                                                        if index in upBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == down:
-                                                for index in copyPossibleSpaces:
-                                                        if index in downBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == right:
-                                                for index in copyPossibleSpaces:
-                                                        if index in rightBunch:
-                                                                deleteSpaces.append(index)
-                                        if var == left:
-                                                for index in copyPossibleSpaces:
-                                                        if index in leftBunch:
-                                                                deleteSpaces.append(index)
-                                else:
-                                        # if opposite color then it is fine and counts as a potential space
-                                        pass
+                                        # if same color then block piece in and don't include counter space
+                                        if var in upBunch:
+                                                # print("up")
+                                                # slices get the space to start then to the end of array
+                                                sliceIndex = upBunch.index(var)
+                                                deleteSpaces.append(upBunch[sliceIndex:])
 
-                # removing spaces that are blocked
-                for varia in deleteSpaces:
-                        if varia in copyPossibleSpaces:
-                                copyPossibleSpaces.remove(varia)
+                                        if var in downBunch:
+                                                # print("down")
+                                                sliceIndex = downBunch.index(var)
+                                                deleteSpaces.append(downBunch[sliceIndex:])
+
+                                        if var in rightBunch:
+                                                # print("right")
+                                                sliceIndex = rightBunch.index(var)
+                                                deleteSpaces.append(rightBunch[sliceIndex:])
+
+                                        if var in leftBunch:
+                                                sliceIndex = leftBunch.index(var)
+                                                deleteSpaces.append(leftBunch[sliceIndex:])
+                                        else:
+                                                # print("pass")
+                                                pass
+                                if boardObjectSpaces[var] != playColor:
+                                        # if opposite color count this space and block it in
+
+                                        if var in upBunch:
+                                                # print("up")
+                                                # slices get the space to start then to the end of array
+                                                sliceIndex = upBunch.index(var)
+                                                deleteSpaces.append(upBunch[sliceIndex + 1:])
+
+                                        if var in downBunch:
+                                                # print("down")
+                                                sliceIndex = downBunch.index(var)
+                                                deleteSpaces.append(downBunch[sliceIndex + 1:])
+
+                                        if var in rightBunch:
+                                                # print("right")
+                                                sliceIndex = rightBunch.index(var)
+                                                deleteSpaces.append(rightBunch[sliceIndex + 1:])
+
+                                        if var in leftBunch:
+                                                sliceIndex = leftBunch.index(var)
+                                                deleteSpaces.append(leftBunch[sliceIndex + 1:])
+                                        else:
+                                                # print("pass")
+                                                pass
+                        elif boardObjectSpaces[var] == "":
+                                pass
+
+                                # if boardObjectSpaces[var].color != playColor:
+                                # if opposite color then only the place counter is on is fine and counts as a potential space
+                                # copyPossibleSpaces.append(var)
+
+                # oppoUnremove = [left,right,up,down,sw,nw,se,ne]
+
+                # print("hello",boardObjectSpaces[10].color)
+
+                # print(deleteSpaces)
+                deleteNoDupl = []
+
+                immediateSpaces = [up, down, left, right]
+
+                # remove duplicates by converting to dictionary
+                for lista in deleteSpaces:
+                        block = list(dict.fromkeys(lista))
+                        for num in block:
+                                deleteNoDupl.append(num)
+
+                # remove duplicates
+                deleteIndexaFin = list(dict.fromkeys(deleteNoDupl))
+
+                for item in deleteIndexaFin:
+                        if item < 0:
+                                deleteIndexaFin.remove(item)
+                        if item > 63:
+                                deleteIndexaFin.remove(item)
+
+                        ########if item in ends index remove all after it???
+
+                for indexa in deleteIndexaFin:
+                        if indexa in copyPossibleSpaces:
+                                copyPossibleSpaces.remove(indexa)
                         else:
                                 pass
+
+                print("del fin", deleteIndexaFin)
 
                 # print(playColor)
                 # print("copyPossibleSpaces", copyPossibleSpaces)
