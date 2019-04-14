@@ -7,6 +7,7 @@
 import tkinter as tkin
 from PIL import ImageTk,Image
 from pygame import mixer
+import random
 
 
 mixer.init()
@@ -538,31 +539,34 @@ class Knight(Piece):
                 # the knight can jump over pieces so there is no need for a full blocker
                 # the only concern is if it lands on a white piece
                 for var in copyPossibleSpaces:
-                        if boardObjectSpaces[var] != "":
-                                # not empty space
-                                if boardObjectSpaces[var].color == playColor:
-                                        # if same color then block piece in
-                                        if var == ul:
-                                                deleteSpaces.append(var)
-                                        if var == ur:
-                                                deleteSpaces.append(var)
-                                        if var == dl:
-                                                deleteSpaces.append(var)
-                                        if var == dr:
-                                                deleteSpaces.append(var)
-                                        if var == lu:
-                                                deleteSpaces.append(var)
-                                        if var == ld:
-                                                deleteSpaces.append(var)
-                                        if var == ru:
-                                                deleteSpaces.append(var)
-                                        if var == rd:
-                                                deleteSpaces.append(var)
-                                else:
-                                        # if opposite color then it is fine and counts as a potential space
-                                        pass
-                        else:
+                        if var < 0 or var > 63:
                                 pass
+                        else:
+                                if boardObjectSpaces[var] != "":
+                                        # not empty space
+                                        if boardObjectSpaces[var].color == playColor:
+                                                # if same color then block piece in
+                                                if var == ul:
+                                                        deleteSpaces.append(var)
+                                                if var == ur:
+                                                        deleteSpaces.append(var)
+                                                if var == dl:
+                                                        deleteSpaces.append(var)
+                                                if var == dr:
+                                                        deleteSpaces.append(var)
+                                                if var == lu:
+                                                        deleteSpaces.append(var)
+                                                if var == ld:
+                                                        deleteSpaces.append(var)
+                                                if var == ru:
+                                                        deleteSpaces.append(var)
+                                                if var == rd:
+                                                        deleteSpaces.append(var)
+                                        else:
+                                                # if opposite color then it is fine and counts as a potential space
+                                                pass
+                                else:
+                                        pass
 
                 # removing spaces that are blocked
                 for varia in deleteSpaces:
@@ -577,12 +581,15 @@ class Knight(Piece):
 
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
-                        posSpace = board[var]
-                        posSpace.config(bg="mediumpurple4")
-                        # EVENT
-                        # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
-                                                                         possibleMoves=copyPossibleSpaces))
+                        if var < 0 or var > 63:
+                                copyPossibleSpaces.remove(var)
+                        else:
+                                posSpace = board[var]
+                                posSpace.config(bg="mediumpurple4")
+                                # EVENT
+                                # move on click
+                                posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
+                                                                                 possibleMoves=copyPossibleSpaces))
 
 
 
@@ -1811,8 +1818,11 @@ def doMove(event,origSquare,possibleMoves):
 
         # highlight removal of possible squares
         for index in possibleMoves:
-                #storing canvases using indexes
-                selCanvases.append(board[index])
+                if index >= 0 and index <= 63:
+                        #storing canvases using indexes
+                        selCanvases.append(board[index])
+                else:
+                        pass
 
         # now de-highlight canvases
         for canvas in selCanvases:
