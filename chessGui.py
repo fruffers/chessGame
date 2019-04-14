@@ -389,7 +389,10 @@ class Pawn(Piece):
                                                 else:
                                                         pass
                         else:
-                                pass
+                                if boardObjectSpaces[var] == "":
+                                        pass
+                                else:
+                                        deleteSpaces.append(up)
 
 
 
