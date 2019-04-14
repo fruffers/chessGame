@@ -6,13 +6,13 @@
 #PIL is pillow
 import tkinter as tkin
 from PIL import ImageTk,Image
-from pygame import mixer
+#from pygame import mixer
 import random
 
 
-mixer.init()
-mixer.music.load("bensound-theduel.mp3")
-mixer.music.play(-1)
+#mixer.init()
+#mixer.music.load("bensound-theduel.mp3")
+#mixer.music.play(-1)
 
 
 
@@ -297,6 +297,8 @@ class Pawn(Piece):
                 #index of current square in boardSquares
                 print(squareIndex,"\n")
 
+                piece = boardObjectSpaces[squareIndex]
+
                 #plug base movements into list
                 #left = squareIndex - 1
                 #right = squareIndex + 1
@@ -365,27 +367,27 @@ class Pawn(Piece):
                                 if boardObjectSpaces[var] == "":
                                                 deleteSpaces.append(var)
 
-                        elif boardObjectSpaces[var] != "":
-                                # not empty space
-                                if boardObjectSpaces[var].color == playColor:
-                                        # if same color then block piece in
-                                        if var == up:
-                                                deleteSpaces.append(up)
-                                        if var == ne:
-                                                deleteSpaces.append(ne)
-                                        if var == nw:
-                                                deleteSpaces.append(nw)
-                                        #if var == down:
-                                                #deleteSpaces.append(var)
-                                        #if var == right:
-                                                #deleteSpaces.append(var)
-                                        #if var == left:
-                                                #deleteSpaces.append(var)
-                                if boardObjectSpaces[var].color != playColor:
-                                        if var == up:
-                                                deleteSpaces.append(up)
-                                        else:
-                                                pass
+                                elif boardObjectSpaces[var] != "":
+                                        # not empty space
+                                        if boardObjectSpaces[var].color == playColor:
+                                                # if same color then block piece in
+                                                if var == up:
+                                                        deleteSpaces.append(up)
+                                                if var == ne:
+                                                        deleteSpaces.append(ne)
+                                                if var == nw:
+                                                        deleteSpaces.append(nw)
+                                                #if var == down:
+                                                        #deleteSpaces.append(var)
+                                                #if var == right:
+                                                        #deleteSpaces.append(var)
+                                                #if var == left:
+                                                        #deleteSpaces.append(var)
+                                        if boardObjectSpaces[var].color != playColor:
+                                                if var == up:
+                                                        deleteSpaces.append(up)
+                                                else:
+                                                        pass
                         else:
                                 pass
 
@@ -401,14 +403,14 @@ class Pawn(Piece):
                 # print(playColor)
                 # print("copyPossibleSpaces", copyPossibleSpaces)
 
+
                 # highlighting possible spaces in light purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
-                                                                         possibleMoves=copyPossibleSpaces))
+                        posSpace.bind("<Button-1>", lambda event: promote(event,piece=piece,origSquare=origSquare,possibleMoves=copyPossibleSpaces))
 
 
                 #EVENT
@@ -2113,11 +2115,29 @@ def winLose(otherPiece):
 
         #display menu
 
+def promote(event,piece,origSquare,possibleMoves):
+        print("the piece",piece)
+        #if pawn gets to other side of the board it is randomly promoted to a new object type
+        randKind = [Rook,Knight,Bishop,Queen]
 
-def wWin(winScreen):
-        root.config(menu=winScreen)
-def bWin(winScreen):
-        root.config(menu=winScreen)
+        print("cliicckck")
+
+        randIndex = random.randrange(0,4)
+
+        # if piece.kind == "pawn":
+        #         if piece.color == "w":
+        #                 if piece in row1:
+        #                         piece.__class__ = Queen("w",wSet)
+        #
+        #         if piece.color == "b":
+        #                 if piece in row8:
+        #                         #piece = randKind[randIndex]("b",bSet)
+        #                         piece = Queen("b",bSet)
+
+
+
+        doMove(event,origSquare=origSquare,possibleMoves=possibleMoves)
+
 
 #OBJECTS
 #16 total in each set
