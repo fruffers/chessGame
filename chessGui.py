@@ -297,36 +297,57 @@ class Pawn(Piece):
                 print(squareIndex,"\n")
 
                 #plug base movements into list
-                left = squareIndex - 1
-                right = squareIndex + 1
+                #left = squareIndex - 1
+                #right = squareIndex + 1
                 up = squareIndex - 8
-                down = squareIndex + 8
-                possibleSpaces = [left,right,up,down]
+                nw = squareIndex - 9
+                ne = squareIndex - 7
+
+                #sw = squareIndex + 7
+                #se = squareIndex + 9
+                #down = squareIndex + 8
+                #possibleSpaces = [left,right,up,down]
+
+                #both are upside down to eachother
+                if self.color == "w":
+                        up = squareIndex - 8
+                        nw = squareIndex - 9
+                        ne = squareIndex - 7
+                elif self.color == "b":
+                        up = squareIndex + 8
+                        nw = squareIndex + 7
+                        ne = squareIndex + 9
+
+
+                possibleSpaces = [up, nw, ne]
+
+
 
                 #make sure the piece isn't on row ends
                 #if it is then remove appropriate move from list of moves
-                if squareIndex in range(0,56,+8):
+                #if squareIndex in range(0,56,+8):
                         #can't go left
-                        possibleSpaces.remove(left)
-                if squareIndex in range(7,63,+8):
+                        #possibleSpaces.remove(left)
+                #if squareIndex in range(7,63,+8):
                         #can't go right
-                        possibleSpaces.remove(right)
+                        #possibleSpaces.remove(right)
 
-                if squareIndex in range(0,8):
+                ########
+                #if squareIndex in range(0,8):
                         #can't go up
-                        possibleSpaces.remove(up)
+                        #possibleSpaces.remove(up)
 
-                if squareIndex in range(56,63):
+                #if squareIndex in range(56,63):
                         #can't go down
-                        possibleSpaces.remove(down)
-                else:
-                        #not at any row ends
-                        pass
+                        #possibleSpaces.remove(down)
+
 
                 origSquare = board[squareIndex]
                 #print(origSquare)
 
                 copyPossibleSpaces = possibleSpaces
+
+                print(copyPossibleSpaces)
 
                 ##########
                 playColor = boardObjectSpaces[squareIndex].color
@@ -337,29 +358,44 @@ class Pawn(Piece):
                 # print(boardObjectSpaces)
 
                 # determining the bunch of spaces that must be removed if counter is blocking the line of sight
+                #need to use deletespaces otherwise I would mess up the for loop by editing it (copypossiblespaces) while looping it
                 for var in copyPossibleSpaces:
-                        if boardObjectSpaces[var] != "":
+                        if var != up:
+                                if boardObjectSpaces[var] == "":
+                                                deleteSpaces.append(var)
+
+                        elif boardObjectSpaces[var] != "":
                                 # not empty space
                                 if boardObjectSpaces[var].color == playColor:
                                         # if same color then block piece in
                                         if var == up:
-                                                deleteSpaces.append(var)
-                                        if var == down:
-                                                deleteSpaces.append(var)
-                                        if var == right:
-                                                deleteSpaces.append(var)
-                                        if var == left:
-                                                deleteSpaces.append(var)
-                                else:
-                                        # if opposite color then it is fine and counts as a potential space
-                                        pass
-
-                # removing spaces that are blocked
-                for varia in deleteSpaces:
-                        if varia in copyPossibleSpaces:
-                                copyPossibleSpaces.remove(varia)
+                                                deleteSpaces.append(up)
+                                        if var == ne:
+                                                deleteSpaces.append(ne)
+                                        if var == nw:
+                                                deleteSpaces.append(nw)
+                                        #if var == down:
+                                                #deleteSpaces.append(var)
+                                        #if var == right:
+                                                #deleteSpaces.append(var)
+                                        #if var == left:
+                                                #deleteSpaces.append(var)
+                                if boardObjectSpaces[var].color != playColor:
+                                        if var == up:
+                                                deleteSpaces.append(up)
+                                        else:
+                                                pass
                         else:
                                 pass
+
+
+
+                #removing spaces that are blocked
+                for varia in deleteSpaces:
+                        if varia in copyPossibleSpaces:
+                                 copyPossibleSpaces.remove(varia)
+                        else:
+                                 pass
 
                 # print(playColor)
                 # print("copyPossibleSpaces", copyPossibleSpaces)
