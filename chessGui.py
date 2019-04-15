@@ -26,13 +26,16 @@ header = tkin.Label(root,text="2D Chess",)
 header.config(font=("courier",20))
 header.grid(column=0,row=0)
 
-def roundLabel(moveNo):
+def roundLabel():
+        global moveNo
+
         roundText = tkin.Label(root,text="MOVE")
         roundNo = tkin.Label(root,text=moveNo)
         roundText.grid(column=0,row=9,sticky="w")
         roundNo = roundNo.grid(column=0,row=9)
 
-        return roundNo
+        #return moveNo
+        #active.calculateMove(board,boardObjectSpaces)
 
 def playerLabel(playerGo):
         pass
@@ -303,6 +306,7 @@ class Pawn(Piece):
                 #left = squareIndex - 1
                 #right = squareIndex + 1
                 up = squareIndex - 8
+                up2 = up - 8
                 nw = squareIndex - 9
                 ne = squareIndex - 7
 
@@ -316,14 +320,27 @@ class Pawn(Piece):
                         up = squareIndex - 8
                         nw = squareIndex - 9
                         ne = squareIndex - 7
+                        up2 = up - 8
+
                 elif self.color == "b":
                         up = squareIndex + 8
                         nw = squareIndex + 7
                         ne = squareIndex + 9
+                        up2 = up + 8
 
 
                 possibleSpaces = [up, nw, ne]
 
+                #lets pawns do a double move on their first move
+                if self.color == "w":
+                        for space in row7:
+                                print(space)
+                                if boardObjectSpaces.index(self) == space:
+                                        possibleSpaces.append(up2)
+                if self.color == "b":
+                        for space in row2:
+                                if boardObjectSpaces.index(self) == space:
+                                        possibleSpaces.append(up2)
 
 
                 #make sure the piece isn't on row ends
@@ -364,6 +381,8 @@ class Pawn(Piece):
                 #need to use deletespaces otherwise I would mess up the for loop by editing it (copypossiblespaces) while looping it
                 for var in copyPossibleSpaces:
                         if var != up:
+                                if var == up2:
+                                        break
                                 if boardObjectSpaces[var] == "":
                                                 deleteSpaces.append(var)
 
@@ -1937,7 +1956,7 @@ def doMove(event,origSquare,possibleMoves):
 
                 ###################promote pawns
 
-        print("PIECEEEEEEEEE",piece)
+        print("PIECE",piece)
 
         print("row1",row1)
 
@@ -1952,6 +1971,17 @@ def doMove(event,origSquare,possibleMoves):
                                 promote(event, piece, origSquare, possibleMoves)
                 else:
                         pickPiece(setMove,places)
+
+
+        #change round label
+        global moveNo
+        moveNo += 1
+
+        roundText = tkin.Label(root, text="MOVE")
+        roundNo = tkin.Label(root, text=moveNo)
+        roundText.grid(column=0, row=9, sticky="w")
+        roundNo = roundNo.grid(column=0, row=9)
+
 
         #run pickPiece function
         pickPiece(setMove,places)
@@ -2098,8 +2128,8 @@ def possibleMovements(caller,piece,squareIndex):
 
 
 def playerMove(event,active,board,boardObjectSpaces):
-        print("move")
-        active.calculateMove(board,boardObjectSpaces)
+        roundLabel(active,board,boardObjectSpaces)
+
         
 
 def winLose(otherPiece):
@@ -2297,7 +2327,7 @@ places = ""
 wPlaces,bPlaces = fillPlaces(wPlaces,bPlaces)
 labelTop()
 labelSide()
-roundNo = roundLabel(moveNo)
+roundLabel()
 playerGo = playerLabel(playerGo)
 blackSquares,whiteSquares = makeBoardCanvases()
 blackSquares,whiteSquares = positionBoardCanvases(blackSquares,whiteSquares)
