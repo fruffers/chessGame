@@ -413,7 +413,7 @@ class Pawn(Piece):
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
-                        posSpace.bind("<Button-1>", lambda event: promote(event,piece=piece,origSquare=origSquare,possibleMoves=copyPossibleSpaces))
+                        posSpace.bind("<Button-1>", lambda event: doMove(event,origSquare = origSquare,possibleMoves = copyPossibleSpaces))
 
 
                 #EVENT
@@ -1870,7 +1870,7 @@ def doMove(event,origSquare,possibleMoves):
                 bPlaces[oldIndex] = ""
 
             #run pickPiece function passing in other player's color
-            pickPiece(setMove,places)
+            #pickPiece(setMove,places)
 
         else:
             if otherPiece.color == turn:
@@ -1907,9 +1907,9 @@ def doMove(event,origSquare,possibleMoves):
                 if otherPiece.kind == "king":
                         #if the king dies run the winlose function and end the game
                         winLose(otherPiece)
-                else:
+                #else:
                         #pickPiece function
-                        pickPiece(setMove,places)
+                        #pickPiece(setMove,places)
 
             elif otherPiece.color == ourColor:
                 # if same set piece then swap it
@@ -1934,8 +1934,27 @@ def doMove(event,origSquare,possibleMoves):
                     bPlaces[oldIndex] = otherPiece
                     bPlaces[newIndex] = piece
 
-                #run pickPiece function
-                pickPiece(setMove,places)
+
+                ###################promote pawns
+
+        print("PIECEEEEEEEEE",piece)
+
+        print("row1",row1)
+
+        pIndex = boardObjectSpaces.index(piece)
+
+        if piece.kind == "pawn":
+                if piece.color == "w":
+                        if pIndex in row1:
+                                promote(event, piece, origSquare, possibleMoves)
+                if piece.color == "b":
+                        if pIndex in row8:
+                                promote(event, piece, origSquare, possibleMoves)
+                else:
+                        pickPiece(setMove,places)
+
+        #run pickPiece function
+        pickPiece(setMove,places)
 
 
 
@@ -2118,28 +2137,93 @@ def winLose(otherPiece):
 
         #display menu
 
+
+
+#dictionaries to hold promoted pawns
+bNew = {}
+wNew = {}
+a = 0
+
+#number keys act like pseudo indexes
+while a <= 8:
+        key = a
+        #placeholder value
+        value = "object"
+        wNew[key] = value
+        a+=1
+
+a = 0
+while a <= 8:
+        key = a
+        value = "object"
+        bNew[key] = value
+        a+=1
+
+print(wNew)
+
+#keeps track of how many pawns have been promoted so next number key can be used
+
+wLevel = 0
+bLevel = 0
+
 def promote(event,piece,origSquare,possibleMoves):
-        print("the piece",piece)
+        print("PROMOTE")
+        #globals so we can access those outside variables from inside function
+        global wLevel
+        global bLevel
+
         #if pawn gets to other side of the board it is randomly promoted to a new object type
         randKind = [Rook,Knight,Bishop,Queen]
 
-        print("cliicckck")
+        #use the index to delete old pawn and put new promoted piece over the top
+        pIndex = boardObjectSpaces.index(piece)
 
         randIndex = random.randrange(0,4)
 
-        # if piece.kind == "pawn":
-        #         if piece.color == "w":
-        #                 if piece in row1:
-        #                         piece.__class__ = Queen("w",wSet)
-        #
-        #         if piece.color == "b":
-        #                 if piece in row8:
-        #                         #piece = randKind[randIndex]("b",bSet)
-        #                         piece = Queen("b",bSet)
+        ####need to add this after doMove
+
+        if piece.color == "w":
+                        #create new object and store in dictionary
+                        #creatobject
+                        wNew[wLevel] = randKind[randIndex]("w",wSet)
+                        wNew[wLevel] = wNew[wLevel]
 
 
+                        #delete old pawn from objectSpaces
+                        boardObjectSpaces[pIndex] = ""
+                        boardObjectSpaces[pIndex] = wNew[wLevel]
+                        #delete old pawn from board canvas
+                        board[pIndex].delete("all")
+                        board[pIndex].create_image(50,50,image = wNew[wLevel].wImage)
+                        #delete old pawn from set
+                        wPlaces[pIndex] = ""
+                        wPlaces[pIndex] = wNew[wLevel]
 
-        doMove(event,origSquare=origSquare,possibleMoves=possibleMoves)
+                        wLevel += 1
+                        return wLevel
+
+        if piece.color == "b":
+                        # create new object and store in dictionary
+                        # creatobject
+                        bNew[bLevel] = randKind[randIndex]("b", bSet)
+                        bNew[bLevel] = bNew[bLevel]
+
+                        # delete old pawn from objectSpaces
+                        boardObjectSpaces[pIndex] = ""
+                        boardObjectSpaces[pIndex] = bNew[bLevel]
+                        # delete old pawn from board canvas
+                        board[pIndex].delete("all")
+                        board[pIndex].create_image(50, 50, image=bNew[bLevel].bImage)
+                        # delete old pawn from set
+                        print("PINDEXX",pIndex)
+                        bPlaces[pIndex] = ""
+                        bPlaces[pIndex] = bNew[bLevel]
+
+
+                        bLevel += 1
+                        return bLevel
+
+        pickPiece(setMove, places)
 
 
 #OBJECTS
@@ -2204,6 +2288,7 @@ def fillPlaces(wPlaces,bPlaces):
 moveNo = 0
 playerGo = "It's white's move"
 setMove = "w"
+#DON'T CONFUSE SETS AND PLACES
 wPlaces = []
 bPlaces = []
 places = ""
