@@ -2,6 +2,8 @@
 2D GUI chess game Python using Tkinter and PIL, event driven, OOP
 <br />
 <br />
+*White moves first
+<br />
 *Right click to deselect a piece and left click to pick another piece.
 <br />
 *Pawns that move to the final square at the other side of the board will randomly get promoted to either a Rook, Knight, Bishop or Queen. 
