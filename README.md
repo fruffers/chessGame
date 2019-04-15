@@ -2,7 +2,7 @@
 2D GUI chess game Python using Tkinter and PIL, event driven, OOP
 <br />
 <br />
-*White moves first
+*White moves first.
 <br />
 *Right click to deselect a piece and left click to pick another piece.
 <br />
