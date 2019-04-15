@@ -12,6 +12,8 @@
 <br />
 *Knights are the only pieces that can jump over their own coloured pieces.
 <br />
+*To win kill the other player's king.
+<br />
 
 
 ![](https://github.com/fruffers/chessGame/blob/master/promote/game3.PNG)
