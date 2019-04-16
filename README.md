@@ -24,3 +24,4 @@ Otherwise if you want to run the game in Python make sure you have PIL (pillow) 
 
 
 ![](https://github.com/fruffers/chessGame/blob/master/promote/game3.PNG)
+![](https://github.com/fruffers/chessGame/blob/master/promote/game4.PNG)
