@@ -21,6 +21,8 @@ Otherwise if you want to run the game in Python make sure you have PIL (pillow) 
 <br />
 *To win kill the other player's king.
 <br />
+*The king is the heart-shaped piece whilst the queen is the spikey piece.
+<br />
 
 
 ![](https://github.com/fruffers/chessGame/blob/master/promote/game3.PNG)
