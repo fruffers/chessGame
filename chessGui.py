@@ -380,42 +380,42 @@ class Pawn(Piece):
                 # determining the bunch of spaces that must be removed if counter is blocking the line of sight
                 #need to use deletespaces otherwise I would mess up the for loop by editing it (copypossiblespaces) while looping it
                 for var in copyPossibleSpaces:
-                        if var != up:
-                                if var == up2:
-                                        if boardObjectSpaces[var] == "":
-                                                break
-                                        else:
-                                                #if a counter is there
-                                                deleteSpaces.append(var)
-                                if boardObjectSpaces[var] == "":
-                                                deleteSpaces.append(var)
-
-                                elif boardObjectSpaces[var] != "":
-                                        # not empty space
-                                        if boardObjectSpaces[var].color == playColor:
-                                                # if same color then block piece in
-                                                if var == up:
-                                                        deleteSpaces.append(up)
-                                                if var == ne:
-                                                        deleteSpaces.append(ne)
-                                                if var == nw:
-                                                        deleteSpaces.append(nw)
-                                                #if var == down:
-                                                        #deleteSpaces.append(var)
-                                                #if var == right:
-                                                        #deleteSpaces.append(var)
-                                                #if var == left:
-                                                        #deleteSpaces.append(var)
-                                        if boardObjectSpaces[var].color != playColor:
-                                                if var == up:
-                                                        deleteSpaces.append(up)
-                                                else:
-                                                        pass
-                        else:
-                                if boardObjectSpaces[var] == "":
-                                        pass
-                                else:
+                        if var == up:
+                                if boardObjectSpaces[var] != "":
                                         deleteSpaces.append(up)
+                                        deleteSpaces.append(up2)
+                                else:
+                                        pass
+                        if var == up2:
+                                if boardObjectSpaces[var] != "":
+                                        deleteSpaces.append(up2)
+                                else:
+                                        pass
+                        if var == nw:
+                                if squareIndex in col1:
+                                        deleteSpaces.append(nw)
+                                else:
+                                        if boardObjectSpaces[var] != "":
+                                                if boardObjectSpaces[var].color == playColor:
+                                                        deleteSpaces.append(nw)
+                                                if boardObjectSpaces[var].color != playColor:
+                                                        pass
+                                        else:
+                                                #if empty then can't move there
+                                                deleteSpaces.append(nw)
+                        if var == ne:
+                                if squareIndex in col8:
+                                        deleteSpaces.append(ne)
+                                else:
+                                        if boardObjectSpaces[var] != "":
+                                                if boardObjectSpaces[var].color == playColor:
+                                                        deleteSpaces.append(ne)
+                                                if boardObjectSpaces[var].color != playColor:
+                                                        pass
+                                        else:
+                                                deleteSpaces.append(ne)
+
+
 
 
 
