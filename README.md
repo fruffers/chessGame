@@ -2,6 +2,11 @@
 2D GUI chess game Python using Tkinter and PIL, event driven, OOP
 <br />
 <br />
+IF YOU JUST WANT TO PLAY THE PURE GAME THEN DOWNLOAD THE 'DIST' FOLDER AND RUN THE EXE FILE.
+<br />
+Otherwise if you want to run the game in Python make sure you have PIL (pillow) and Tkinter modules.
+<br />
+<br />
 *White moves first.
 <br />
 *Right click to deselect a piece and left click to pick another piece.
