@@ -382,7 +382,11 @@ class Pawn(Piece):
                 for var in copyPossibleSpaces:
                         if var != up:
                                 if var == up2:
-                                        break
+                                        if boardObjectSpaces[var] == "":
+                                                break
+                                        else:
+                                                #if a counter is there
+                                                deleteSpaces.append(var)
                                 if boardObjectSpaces[var] == "":
                                                 deleteSpaces.append(var)
 
