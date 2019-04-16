@@ -9,6 +9,8 @@ Otherwise if you want to run the game in Python make sure you have PIL (pillow) 
 <br />
 *White moves first.
 <br />
+*It's a 2 player game. So grab a friend.
+<br />
 *Right click to deselect a piece and left click to pick another piece.
 <br />
 *Pawns that move to the final square at the other side of the board will randomly get promoted to either a Rook, Knight, Bishop or Queen. 
