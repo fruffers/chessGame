@@ -1665,11 +1665,17 @@ class King(Piece):
                 diagBunch = [nw,ne,sw,se]
                 straightBunch = [left,right,up,down]
 
+                print("straights", straightBunch)
+
                 # ENDS used to determine the end of board
+                #top
                 end1 = range(0, 8)
+                #left
                 end2 = range(0, 57, 8)
+                #bottom
                 end3 = range(56, 64)
-                end4 = range(7, 57, 8)
+                #right
+                end4 = range(7, 64, 8)
 
                 ends = [end1, end2, end3, end4]
                 endsIndexes = []
@@ -1687,11 +1693,31 @@ class King(Piece):
                 if squareIndex:
                         #DIAGONALS
                         for num in diagBunch:
-                                if num in endsIndexes:
-                                        possibleSpaces.append(num)
+                                if num < 0 or num > 63:
                                         pass
-                                elif num < 0 or num > 63:
-                                        pass
+                                elif squareIndex in end1:
+                                        #end handling
+                                        if num in end3:
+                                                pass
+                                        else:
+                                                possibleSpaces.append(num)
+                                elif squareIndex in end3:
+                                        if num in end1:
+                                                pass
+                                        else:
+                                                possibleSpaces.append(num)
+                                elif squareIndex in end2:
+                                        #end handling
+                                        if num in end4:
+                                                pass
+                                        else:
+                                                possibleSpaces.append(num)
+                                elif squareIndex in end4:
+                                        #end handling
+                                        if num in end2:
+                                                pass
+                                        else:
+                                                possibleSpaces.append(num)
                                 else:
                                         possibleSpaces.append(num)
                                         continue
@@ -1700,6 +1726,18 @@ class King(Piece):
                         for var in straightBunch:
                                 if var < 0 or var > 63:
                                         pass
+                                elif squareIndex in end2:
+                                        #end handling
+                                        if var in end4:
+                                                pass
+                                        else:
+                                                possibleSpaces.append(var)
+                                elif squareIndex in end4:
+                                        #end handling
+                                        if var in end2:
+                                                pass
+                                        else:
+                                                possibleSpaces.append(var)
                                 else:
                                         possibleSpaces.append(var)
                                         continue
