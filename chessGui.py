@@ -2152,7 +2152,7 @@ def deselect(event,possibleSpaces):
         ourIndex = board.index(event)
         setMove = boardObjectSpaces[ourIndex].color
 
-        origSquare = event.widget
+        origSquare = event
 
         #unbind the event after it is done so if a new piece has a possibleSpace in there the player can't right click
         #and run this event to de-highlight it
