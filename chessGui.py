@@ -1863,10 +1863,6 @@ def doMove(event,origSquare,possibleMoves):
 
 
 
-
-
-
-
         # HIGHLIGHT REMOVAL
         print("DESELECT")
         # make sure the background color returns to its original color
@@ -2012,7 +2008,7 @@ def doMove(event,origSquare,possibleMoves):
                         if pIndex in row8:
                                 promote(event, piece, origSquare, possibleMoves)
                 else:
-                        pickPiece(setMove,places)
+                        pickPiece(setMove,places,origSquare)
 
 
         #change round label
@@ -2026,7 +2022,7 @@ def doMove(event,origSquare,possibleMoves):
 
 
         #run pickPiece function
-        pickPiece(setMove,places)
+        pickPiece(setMove,places,origSquare)
 
 
 
@@ -2056,7 +2052,7 @@ def setStartPosition(bSet,wSet,board,boardObjectSpaces):
         return bSet,wSet,board,bPlaces,wPlaces,boardObjectSpaces
 
 
-def pickPiece(setMove,places):
+def pickPiece(setMove,places,origSquare):
         #undo last time
         if places != "":
             for piece in places:
@@ -2064,6 +2060,7 @@ def pickPiece(setMove,places):
                     pIndex = places.index(piece)
                     board[pIndex].config(cursor="hand2")
                     board[pIndex].bind("<Button-1>",unbind)
+                    origSquare.bind("<Button-3>",unbind)
 
         #determine who's move it is
         if setMove == "w":
@@ -2155,8 +2152,14 @@ def deselect(event,possibleSpaces):
         ourIndex = board.index(event)
         setMove = boardObjectSpaces[ourIndex].color
 
+        origSquare = event.widget
+
+        #unbind the event after it is done so if a new piece has a possibleSpace in there the player can't right click
+        #and run this event to de-highlight it
+
+
         #be able to select pieces again. Jump back to start.
-        pickPiece(setMove,places)
+        pickPiece(setMove,places,origSquare)
 
 def possibleMovements(caller,piece,squareIndex):
         #piece = piece
@@ -2295,7 +2298,7 @@ def promote(event,piece,origSquare,possibleMoves):
                         bLevel += 1
                         return bLevel
 
-        pickPiece(setMove, places)
+        pickPiece(setMove, places, origSquare)
 
 
 #OBJECTS
@@ -2375,7 +2378,7 @@ blackSquares,whiteSquares = makeBoardCanvases()
 blackSquares,whiteSquares = positionBoardCanvases(blackSquares,whiteSquares)
 board = boardSpaces(blackSquares,whiteSquares)
 bSet,wSet,board,bPlaces,wPlaces,boardObjectSpaces = setStartPosition(bSet,wSet,board,boardObjectSpaces)
-places = pickPiece(setMove,places)
+places = pickPiece(setMove,places,origSquare=board[1])
 
 #print(bPlaces)
 #print("\n")
