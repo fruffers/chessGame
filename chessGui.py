@@ -542,8 +542,10 @@ class Knight(Piece):
 
                 elif squareIndex in range(55,63):
                         #can't go too far down
-                        possibleSpaces.remove(dl)
-                        possibleSpaces.remove(dr)
+                        if dl in possibleSpaces:
+                                possibleSpaces.remove(dl)
+                        if dr in possibleSpaces:
+                                possibleSpaces.remove(dr)
                 else:
                         #not at any row ends
                         pass
