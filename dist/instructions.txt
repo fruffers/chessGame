@@ -3,9 +3,10 @@ General rules:
 *To win kill the other player's king. 
 *It's a 2 player game.
 *The king is the heart-shaped piece whilst the queen is the spikey piece. 
+*Select a piece by left clicking on it. Its possible moves should be highlighted in dark purple. You can either left click one of the dark purple spaces to move there or RIGHT click the selected piece (highlighted in light purple) to deselect it and then pick a different piece by left clicking that piece.
+* In summary: right click to deselect a piece and left click to pick another piece. 
 
 Movement:
-*Right click to deselect a piece and left click to pick another piece. 
 *Pawns that move to the final square at the other side of the board will randomly get promoted to either a Rook, Knight, Bishop or Queen. 
 *Pawns can move 2 squares forward on only their first move. 
 *Pawns kill diagonally. 
