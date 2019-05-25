@@ -283,6 +283,8 @@ class Piece(object):
         col7 = range(6, 63, +8)
         col8 = range(7, 64, +8)
 
+        def unbindAll(self):
+                pass
         
                 
 class Pawn(Piece):
@@ -1795,12 +1797,13 @@ class King(Piece):
                 # print(playColor)
                 # print("copyPossibleSpaces", copyPossibleSpaces)
 
-                # highlighting possible spaces in light purple
+                # highlighting possible spaces in dark purple
                 for var in copyPossibleSpaces:
                         posSpace = board[var]
                         posSpace.config(bg="mediumpurple4")
                         # EVENT
                         # move on click
+                        #this is binding all the spaces... you must unbind them
                         posSpace.bind("<Button-1>", lambda event: doMove(event, origSquare=origSquare,
                                                                          possibleMoves=copyPossibleSpaces))
 
@@ -1866,7 +1869,7 @@ def doMove(event,origSquare,possibleMoves):
 
 
         # HIGHLIGHT REMOVAL
-        print("DESELECT")
+        print("HIGHLIGHT REMOVAL")
         # make sure the background color returns to its original color
 
         # original square de-highlight
@@ -2022,6 +2025,11 @@ def doMove(event,origSquare,possibleMoves):
         roundText.grid(column=0, row=9, sticky="w")
         roundNo = roundNo.grid(column=0, row=9)
 
+        #unbind all the previous spaces
+        #for space in possibleMoves:
+                #posSpace = board[space]
+                #posSpace.bind("<Button-1>", unbind)
+
 
         #run pickPiece function
         pickPiece(setMove,places,origSquare)
@@ -2056,9 +2064,9 @@ def setStartPosition(bSet,wSet,board,boardObjectSpaces):
 
 def pickPiece(setMove,places,origSquare):
         #undo last time
-        if places != "":
+        if places:
             for piece in places:
-                if piece != "":
+                if piece:
                     pIndex = places.index(piece)
                     board[pIndex].config(cursor="hand2")
                     board[pIndex].bind("<Button-1>",unbind)
@@ -2116,6 +2124,8 @@ def playerSelect(event,places):
 
         #deselect with the right mouse button
 
+        #caller.bind("<Button-1>", unbind)
+
 
         possibleMovements(caller,piece,squareIndex)
         ############################unbind so that we can only select one piece
@@ -2150,6 +2160,10 @@ def deselect(event,possibleSpaces):
                 elif canvas in blackSquares:
                         canvas.config(bg="brown")
 
+        #unbind all click events attached to canvases in possibleSpaces from being clicked after deselect
+        for canvas in selCanvases:
+                canvas.bind("<Button-1>",unbind)
+
         #this prevents black from losing their turn after deselecting because setMove won't return to the global 'w'
         ourIndex = board.index(event)
         setMove = boardObjectSpaces[ourIndex].color
@@ -2170,6 +2184,9 @@ def possibleMovements(caller,piece,squareIndex):
         #index is the board canvas
         #because the moves will be different for different piece types we access the move method of the piece object
         print("POSMOVE")
+
+        #unbind piece
+
         #run moves func
         piece.moves(squareIndex)
 
@@ -2375,6 +2392,8 @@ wPlaces,bPlaces = fillPlaces(wPlaces,bPlaces)
 labelTop()
 labelSide()
 roundLabel()
+
+#main
 playerGo = playerLabel(playerGo)
 blackSquares,whiteSquares = makeBoardCanvases()
 blackSquares,whiteSquares = positionBoardCanvases(blackSquares,whiteSquares)
