@@ -2,7 +2,7 @@
 2D GUI chess game Python using Tkinter and PIL, event driven, OOP
 <br />
 <br />
-IF YOU USE WINDOWS AND JUST WANT TO PLAY THE PURE GAME THEN DOWNLOAD THE 'DIST' FOLDER AND RUN THE EXE FILE. YOU MUST MAKE SURE YOU KEEP ITS 'MATS' FOLDER INSIDE IT OTHERWISE THE GAME WILL NOT WORK.
+IF YOU USE WINDOWS AND JUST WANT TO PLAY THE PURE GAME THEN DOWNLOAD THE 'DIST' FOLDER AND RUN THE EXE FILE. YOU MUST MAKE SURE YOU KEEP ITS 'MATS' FOLDER INSIDE IT OTHERWISE THE GAME WILL NOT WORK. Alternately just download it here with 1 button click https://fruffers.itch.io/chess
 <br />
 Or if you want to run the game in Python make sure you have PIL (pillow) and Tkinter modules.
 <br />
