@@ -5,7 +5,7 @@ With the messiest code you have ever seen inside...
 <br />
 If you use Windows and just want to play the pure game then download the 'dist' folder and run the exe file. You must make sure you keep its 'mats' folder inside it otherwise the game will not work. Alternately just download it here with 1 button click https://fruffers.itch.io/chess
 <br />
-Or if you want to run the game in Python make sure you have PIL (pillow) and Tkinter modules.
+Or if you want to run the game in Python which you can use on any OS, make sure you have PIL (pillow) and Tkinter modules.
 <br />
 <br />
 *White moves first.
