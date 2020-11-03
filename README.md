@@ -1,6 +1,6 @@
 # chessGame
 2D GUI chess game Python using Tkinter and PIL, event driven, OOP
-With the messiest code you have ever seen inside...
+With the messiest code you have ever seen inside... Dammit, Louise.
 <br />
 <br />
 If you use Windows and just want to play the pure game then download the 'dist' folder and run the exe file. You must make sure you keep its 'mats' folder inside it otherwise the game will not work. Alternately just download it here with 1 button click https://fruffers.itch.io/chess
