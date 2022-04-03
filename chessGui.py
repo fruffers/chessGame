@@ -8,6 +8,7 @@ import tkinter as tkin
 from PIL import ImageTk,Image
 #from pygame import mixer
 import random
+import os.path
 
 
 #mixer.init()
@@ -20,6 +21,9 @@ import random
 root = tkin.Tk()
 root.title("Louise's 2D Chess")
 root.geometry("1300x1000")
+
+#define absolute OS path
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 #title
 header = tkin.Label(root,text="2D Chess",)
@@ -289,9 +293,9 @@ class Piece(object):
                 
 class Pawn(Piece):
         #properties
-        bOpen= Image.open("mats/bPawn.png")
+        bOpen= Image.open(os.path.join(script_dir,"mats/bPawn.png"))
         bImage= ImageTk.PhotoImage(bOpen)
-        wOpen= Image.open("mats/wPawn.png")
+        wOpen= Image.open(os.path.join(script_dir,"mats/wPawn.png"))
         wImage= ImageTk.PhotoImage(wOpen)
 
         kind = "pawn"
@@ -449,9 +453,9 @@ class Pawn(Piece):
 
 class Knight(Piece):
         #properties
-        bOpen= Image.open("mats/bKnight.png")
+        bOpen= Image.open(os.path.join(script_dir,"mats/bKnight.png"))
         bImage= ImageTk.PhotoImage(bOpen)
-        wOpen= Image.open("mats/wKnight.png")
+        wOpen= Image.open(os.path.join(script_dir,"mats/wKnight.png"))
         wImage= ImageTk.PhotoImage(wOpen)
 
         kind = "knight"
@@ -633,9 +637,9 @@ class Knight(Piece):
 
 class Rook(Piece):
         #properties
-        bOpen= Image.open("mats/bRook.png")
+        bOpen= Image.open(os.path.join(script_dir,"mats/bRook.png"))
         bImage= ImageTk.PhotoImage(bOpen)
-        wOpen= Image.open("mats/wRook.png")
+        wOpen= Image.open(os.path.join(script_dir,"mats/wRook.png"))
         wImage= ImageTk.PhotoImage(wOpen)
 
         kind = "rook"
@@ -869,9 +873,9 @@ class Rook(Piece):
 
 class Bishop(Piece):
         #properties
-        bOpen= Image.open("mats/bBishop.png")
+        bOpen= Image.open(os.path.join(script_dir,"mats/bBishop.png"))
         bImage= ImageTk.PhotoImage(bOpen)
-        wOpen= Image.open("mats/wBishop.png")
+        wOpen= Image.open(os.path.join(script_dir,"mats/wBishop.png"))
         wImage= ImageTk.PhotoImage(wOpen)
 
         kind = "bishop"
@@ -1139,9 +1143,9 @@ class Bishop(Piece):
         
 class Queen(Piece):
         #properties
-        bOpen= Image.open("mats/bQueen.png")
+        bOpen= Image.open(os.path.join(script_dir,"mats/bQueen.png"))
         bImage= ImageTk.PhotoImage(bOpen)
-        wOpen= Image.open("mats/wQueen.png")
+        wOpen= Image.open(os.path.join(script_dir,"mats/wQueen.png"))
         wImage= ImageTk.PhotoImage(wOpen)
 
         kind = "queen"
@@ -1645,9 +1649,9 @@ class Queen(Piece):
 
 class King(Piece):
         #properties
-        bOpen= Image.open("mats/bKing.png")
+        bOpen= Image.open(os.path.join(script_dir,"mats/bKing.png"))
         bImage= ImageTk.PhotoImage(bOpen)
-        wOpen= Image.open("mats/wKing.png")
+        wOpen= Image.open(os.path.join(script_dir,"mats/wKing.png"))
         wImage= ImageTk.PhotoImage(wOpen)
 
         kind = "king"
